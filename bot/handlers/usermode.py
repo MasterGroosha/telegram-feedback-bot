@@ -3,7 +3,7 @@ from aiogram import Dispatcher, types
 from aiogram.types import ContentType
 
 
-async def send_expiring_notification(message: types.Message):
+async def _send_expiring_notification(message: types.Message):
     msg = await message.reply("Сообщение отправлено!")
     await sleep(5.0)
     await msg.delete()
@@ -14,7 +14,7 @@ async def text_message(message: types.Message, admin_chat: int):
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
                                    "Пожалуйста, сократите свою мысль и попробуйте ещё раз.")
     await message.bot.send_message(admin_chat, message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML")
-    await create_task(send_expiring_notification(message))
+    await create_task(_send_expiring_notification(message))
 
 
 async def supported_media(message: types.Message, admin_chat: int):
@@ -24,7 +24,7 @@ async def supported_media(message: types.Message, admin_chat: int):
     await message.copy_to(admin_chat,
                           caption=((message.caption or "") + f"\n\n#id{message.from_user.id}"),
                           parse_mode="HTML")
-    await create_task(send_expiring_notification(message))
+    await create_task(_send_expiring_notification(message))
 
 
 async def unsupported_types(message: types.Message):
