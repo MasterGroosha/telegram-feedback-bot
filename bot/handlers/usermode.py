@@ -17,8 +17,14 @@ async def text_message(message: types.Message, admin_chat: int):
     await create_task(send_expiring_notification(message))
 
 
-async def supported_media(message: types.Message):
-    await message.reply("ok media")
+async def supported_media(message: types.Message, admin_chat: int):
+    if message.caption and len(message.caption) > 1000:
+        return await message.reply("К сожалению, длина подписи медиафайла превышает допустимый размер. "
+                                   "Пожалуйста, сократите свою мысль и попробуйте ещё раз.")
+    await message.copy_to(admin_chat,
+                          caption=((message.caption or "") + f"\n\n#id{message.from_user.id}"),
+                          parse_mode="HTML")
+    await create_task(send_expiring_notification(message))
 
 
 async def unsupported_types(message: types.Message):
