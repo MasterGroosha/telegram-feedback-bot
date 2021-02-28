@@ -29,6 +29,14 @@ async def main():
     if not token:
         raise ValueError("Не указан токен. Бот не может быть запущен.")
 
+    admin_chat_id = getenv("ADMIN_CHAT_ID", None)
+    if not admin_chat_id:
+        raise ValueError("Не указан идентификатор чата для пересылки сообщений. Бот не может быть запущен.")
+    try:
+        admin_chat_id = int(admin_chat_id)
+    except ValueError:
+        raise ValueError(f'Идентификатор "{admin_chat_id}" не является числом. Бот не может быть запущен.')
+
     bot = Bot(token=token)
     dp = Dispatcher(bot)
 
