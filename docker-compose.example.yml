@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+    bot:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        environment:
+            - BOT_TOKEN=${BOT_TOKEN}
+            - ADMIN_CHAT_ID=${ADMIN_CHAT_ID}
