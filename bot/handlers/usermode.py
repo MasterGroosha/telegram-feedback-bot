@@ -1,9 +1,20 @@
+from asyncio import create_task, sleep
 from aiogram import Dispatcher, types
 from aiogram.types import ContentType
 
 
-async def text_message(message: types.Message):
-    await message.reply("ok text")
+async def send_expiring_notification(message: types.Message):
+    msg = await message.reply("Сообщение отправлено!")
+    await sleep(5.0)
+    await msg.delete()
+
+
+async def text_message(message: types.Message, admin_chat: int):
+    if len(message.text) > 4000:
+        return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
+                                   "Пожалуйста, сократите свою мысль и попробуйте ещё раз.")
+    await message.bot.send_message(admin_chat, message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML")
+    await create_task(send_expiring_notification(message))
 
 
 async def supported_media(message: types.Message):
