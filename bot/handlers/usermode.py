@@ -33,7 +33,12 @@ async def unsupported_types(message: types.Message):
                         "для пересылки от пользователей. Отправьте что-нибудь другое.")
 
 
+async def cmd_help_user(message: types.Message):
+    await message.answer("Справку пока не завезли 😔")
+
+
 def register_usermode_handlers(dp: Dispatcher):
+    dp.register_message_handler(cmd_help_user, commands="help")
     dp.register_message_handler(text_message, content_types=ContentType.TEXT)
     dp.register_message_handler(supported_media, content_types=[
         ContentType.ANIMATION, ContentType.AUDIO, ContentType.PHOTO,
