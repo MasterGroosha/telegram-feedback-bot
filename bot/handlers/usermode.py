@@ -37,7 +37,15 @@ async def cmd_help_user(message: types.Message):
     await message.answer("Справку пока не завезли 😔")
 
 
+async def cmd_start_user(message: types.Message):
+    await message.answer(
+        "Привет ✌️\n"
+        "C моей помощью ты можешь связаться с моим хозяином и получить от него ответ. "
+        "Просто напиши что-нибудь в этот диалог.")
+
+
 def register_usermode_handlers(dp: Dispatcher):
+    dp.register_message_handler(cmd_start_user, commands="start")
     dp.register_message_handler(cmd_help_user, commands="help")
     dp.register_message_handler(text_message, content_types=ContentType.TEXT)
     dp.register_message_handler(supported_media, content_types=[
