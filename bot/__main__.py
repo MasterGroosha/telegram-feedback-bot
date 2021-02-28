@@ -5,6 +5,7 @@ from os import getenv
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 
+from bot.middlewares.config import ConfigMiddleware
 from bot.handlers.usermode import register_usermode_handlers
 
 logger = logging.getLogger(__name__)
@@ -42,6 +43,9 @@ async def main():
 
     # Регистрация хэндлеров
     register_usermode_handlers(dp)
+
+    # Регистрация мидлвари
+    dp.middleware.setup(ConfigMiddleware(admin_chat_id))
 
     # Регистрация /-команд в интерфейсе
     await set_bot_commands(bot)
