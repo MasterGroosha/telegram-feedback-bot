@@ -30,7 +30,7 @@ async def supported_media(message: types.Message, admin_chat: int):
 async def unsupported_types(message: types.Message):
     print(message.content_type)
     await message.reply("К сожалению, этот тип сообщения не поддерживается "
-                        "для пересылки. Отправьте что-нибудь другое.")
+                        "для пересылки от пользователей. Отправьте что-нибудь другое.")
 
 
 def register_usermode_handlers(dp: Dispatcher):
