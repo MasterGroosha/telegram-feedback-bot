@@ -4,6 +4,9 @@ from typing import Dict, Any
 
 
 class ConfigMiddleware(BaseMiddleware):
+    """
+    Миддлварь для прокидывания ID чата с админом (это может быть и группа) в хэндлеры
+    """
     def __init__(self, admin_chat_id: int):
         super(ConfigMiddleware, self).__init__()
         self.admin_chat_id = admin_chat_id
