@@ -51,7 +51,6 @@ async def unsupported_types(message: types.Message):
 
     :param message: сообщение от пользователя
     """
-    print(message.content_type)
     await message.reply("К сожалению, этот тип сообщения не поддерживается "
                         "для пересылки от пользователей. Отправьте что-нибудь другое.")
 
