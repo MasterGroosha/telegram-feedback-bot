@@ -3,6 +3,16 @@ from aiogram.dispatcher.filters import IsReplyFilter, IDFilter
 from aiogram.utils.exceptions import BotBlocked, TelegramAPIError
 
 
+async def unsupported_reply_types(message: types.Message):
+    """
+    Хэндлер на неподдерживаемые типы сообщений, т.е. те, которые не имеют смысла
+    для копирования. Например, опросы (админ не увидит результат)
+
+    :param message: сообщение от администратора
+    """
+    await message.reply("К сожалению, этот тип сообщения не поддерживается для ответа пользователю.")
+
+
 async def has_no_reply(message: types.Message):
     """
     Хэндлер на сообщение от админа, не содержащее ответ (reply).
@@ -44,6 +54,8 @@ async def reply_to_user(message: types.Message):
 
 
 def register_adminmode_handlers(dp: Dispatcher, admin_chat_id: int):
+    dp.register_message_handler(unsupported_reply_types, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
+                                content_types=types.ContentTypes.POLL)
     dp.register_message_handler(reply_to_user, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 content_types=types.ContentTypes.ANY)
     dp.register_message_handler(has_no_reply, IsReplyFilter(is_reply=False), IDFilter(chat_id=admin_chat_id),
