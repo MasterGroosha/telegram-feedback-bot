@@ -23,7 +23,7 @@ async def text_message(message: types.Message, admin_chat: int):
     """
     if len(message.text) > 4000:
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
-                                   "Пожалуйста, сократите свою мысль и попробуйте ещё раз.")
+                                   "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
     await message.bot.send_message(admin_chat, message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML")
     await create_task(_send_expiring_notification(message))
 
@@ -38,7 +38,7 @@ async def supported_media(message: types.Message, admin_chat: int):
     """
     if message.caption and len(message.caption) > 1000:
         return await message.reply("К сожалению, длина подписи медиафайла превышает допустимый размер. "
-                                   "Пожалуйста, сократите свою мысль и попробуйте ещё раз.")
+                                   "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
     await message.copy_to(admin_chat,
                           caption=((message.caption or "") + f"\n\n#id{message.from_user.id}"),
                           parse_mode="HTML")
@@ -52,7 +52,7 @@ async def unsupported_types(message: types.Message):
     :param message: сообщение от пользователя
     """
     await message.reply("К сожалению, этот тип сообщения не поддерживается "
-                        "для пересылки от пользователей. Отправьте что-нибудь другое.")
+                        "для пересылки от пользователей. Отправь что-нибудь другое.")
 
 
 async def cmd_help_user(message: types.Message):
