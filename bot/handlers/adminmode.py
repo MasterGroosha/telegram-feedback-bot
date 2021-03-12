@@ -73,11 +73,17 @@ async def get_user_info(message: types.Message):
     await message.reply(f"Имя: {user.full_name}\n\nID: {user.id}\nUsername: {user.username or 'нет'}")
 
 
+async def admin_help(message: types.Message):
+    await message.answer(f"В настоящий момент доступны следующие команды администратора:\n\n"
+                         f"/get (в ответ на сообщение) — запрос информации о пользователе по его ID.")
+
+
 def register_adminmode_handlers(dp: Dispatcher, admin_chat_id: int):
     dp.register_message_handler(unsupported_reply_types, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 content_types=types.ContentTypes.POLL)
     dp.register_message_handler(get_user_info, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 commands="get")
+    dp.register_message_handler(admin_help, IDFilter(chat_id=admin_chat_id), commands="help")
     dp.register_message_handler(reply_to_user, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 content_types=types.ContentTypes.ANY)
     dp.register_message_handler(has_no_reply, IsReplyFilter(is_reply=False), IDFilter(chat_id=admin_chat_id),
