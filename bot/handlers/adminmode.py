@@ -62,9 +62,22 @@ async def reply_to_user(message: types.Message):
         await message.reply(f"Не удалось отправить сообщение адресату! Ошибка: {ex}")
 
 
+async def get_user_info(message: types.Message):
+    user_id, error = _extract_id(message)
+    if error:
+        return await message.reply(error)
+    try:
+        user = await message.bot.get_chat(user_id)
+    except TelegramAPIError as ex:
+        return await message.reply(f"Не удалось получить информацию о пользователе! Ошибка: {ex}")
+    await message.reply(f"Имя: {user.full_name}\n\nID: {user.id}\nUsername: {user.username or 'нет'}")
+
+
 def register_adminmode_handlers(dp: Dispatcher, admin_chat_id: int):
     dp.register_message_handler(unsupported_reply_types, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 content_types=types.ContentTypes.POLL)
+    dp.register_message_handler(get_user_info, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
+                                commands="get")
     dp.register_message_handler(reply_to_user, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 content_types=types.ContentTypes.ANY)
     dp.register_message_handler(has_no_reply, IsReplyFilter(is_reply=False), IDFilter(chat_id=admin_chat_id),
