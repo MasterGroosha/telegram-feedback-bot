@@ -82,7 +82,7 @@ def register_adminmode_handlers(dp: Dispatcher, admin_chat_id: int):
     dp.register_message_handler(unsupported_reply_types, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 content_types=types.ContentTypes.POLL)
     dp.register_message_handler(get_user_info, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
-                                commands="get")
+                                commands=["get", "who"])
     dp.register_message_handler(admin_help, IDFilter(chat_id=admin_chat_id), commands="help")
     dp.register_message_handler(reply_to_user, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
                                 content_types=types.ContentTypes.ANY)
