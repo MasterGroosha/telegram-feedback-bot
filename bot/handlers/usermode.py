@@ -51,8 +51,9 @@ async def unsupported_types(message: types.Message):
 
     :param message: сообщение от пользователя
     """
-    await message.reply("К сожалению, этот тип сообщения не поддерживается "
-                        "для пересылки от пользователей. Отправь что-нибудь другое.")
+    if message.content_type not in (types.ContentType.NEW_CHAT_MEMBERS, types.ContentType.LEFT_CHAT_MEMBER):
+        await message.reply("К сожалению, этот тип сообщения не поддерживается "
+                            "для пересылки от пользователей. Отправь что-нибудь другое.")
 
 
 async def cmd_help_user(message: types.Message):
