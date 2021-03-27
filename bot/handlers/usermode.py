@@ -51,7 +51,12 @@ async def unsupported_types(message: types.Message):
 
     :param message: сообщение от пользователя
     """
-    if message.content_type not in (types.ContentType.NEW_CHAT_MEMBERS, types.ContentType.LEFT_CHAT_MEMBER):
+    # Игнорируем служебные сообщения
+    if message.content_type not in (
+            ContentType.NEW_CHAT_MEMBERS, ContentType.LEFT_CHAT_MEMBER, ContentType.VOICE_CHAT_STARTED,
+            ContentType.VOICE_CHAT_ENDED, ContentType.VOICE_CHAT_PARTICIPANTS_INVITED,
+            ContentType.MESSAGE_AUTO_DELETE_TIMER_CHANGED, ContentType.NEW_CHAT_PHOTO, ContentType.DELETE_CHAT_PHOTO,
+            ContentType.SUCCESSFUL_PAYMENT, ContentType.PROXIMITY_ALERT_TRIGGERED):
         await message.reply("К сожалению, этот тип сообщения не поддерживается "
                             "для пересылки от пользователей. Отправь что-нибудь другое.")
 
