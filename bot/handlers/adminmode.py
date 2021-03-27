@@ -74,8 +74,8 @@ async def get_user_info(message: types.Message):
 
 
 async def admin_help(message: types.Message):
-    await message.answer(f"В настоящий момент доступны следующие команды администратора:\n\n"
-                         f"/get (в ответ на сообщение) — запрос информации о пользователе по его ID.")
+    await message.answer("В настоящий момент доступны следующие команды администратора:\n\n"
+                         "/get или /who (в ответ на сообщение) — запрос информации о пользователе по его ID.")
 
 
 def register_adminmode_handlers(dp: Dispatcher, admin_chat_id: int):
