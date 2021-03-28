@@ -70,7 +70,8 @@ async def get_user_info(message: types.Message):
         user = await message.bot.get_chat(user_id)
     except TelegramAPIError as ex:
         return await message.reply(f"Не удалось получить информацию о пользователе! Ошибка: {ex}")
-    await message.reply(f"Имя: {user.full_name}\n\nID: {user.id}\nUsername: {user.username or 'нет'}")
+    u = f"@{user.username}" if user.username else 'нет'
+    await message.reply(f"Имя: {user.full_name}\n\nID: {user.id}\nUsername: {u}")
 
 
 async def admin_help(message: types.Message):
