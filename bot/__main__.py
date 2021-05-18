@@ -56,7 +56,10 @@ async def main():
 
     # Запуск поллинга
     # await dp.skip_updates()  # пропуск накопившихся апдейтов (необязательно)
-    await dp.start_polling()
+    try:
+        await dp.start_polling()
+    finally:
+        await bot.close()
 
 
 if __name__ == '__main__':
