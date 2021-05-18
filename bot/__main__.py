@@ -5,7 +5,6 @@ from os import getenv
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
 
-from bot.middlewares.config import ConfigMiddleware
 from bot.handlers.usermode import register_usermode_handlers
 from bot.handlers.adminmode import register_adminmode_handlers
 from bot.handlers.common import register_common_handlers
@@ -42,15 +41,13 @@ async def main():
         raise ValueError(f'Идентификатор "{admin_chat_id}" не является числом. Бот не может быть запущен.')
 
     bot = Bot(token=token)
+    bot["admin_chat_id"] = admin_chat_id  # Добавление айдишника к объекту bot
     dp = Dispatcher(bot)
 
     # Регистрация хэндлеров
     register_adminmode_handlers(dp, admin_chat_id)
     register_common_handlers(dp)
     register_usermode_handlers(dp)
-
-    # Регистрация мидлвари
-    dp.middleware.setup(ConfigMiddleware(admin_chat_id))
 
     # Регистрация /-команд в интерфейсе
     await set_bot_commands(bot)

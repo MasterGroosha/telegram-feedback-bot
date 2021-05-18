@@ -14,32 +14,32 @@ async def _send_expiring_notification(message: types.Message):
     await msg.delete()
 
 
-async def text_message(message: types.Message, admin_chat: int):
+async def text_message(message: types.Message):
     """
     Хэндлер на текстовые сообщения от пользователя
 
     :param message: сообщение от пользователя для админа(-ов)
-    :param admin_chat: ID чата для админа(-ов)
     """
     if len(message.text) > 4000:
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
-    await message.bot.send_message(admin_chat, message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML")
+    admin_chat_id = message.bot.get("admin_chat_id")
+    await message.bot.send_message(admin_chat_id, message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML")
     await create_task(_send_expiring_notification(message))
 
 
-async def supported_media(message: types.Message, admin_chat: int):
+async def supported_media(message: types.Message):
     """
     Хэндлер на медиафайлы от пользователя.
     Поддерживаются только типы, к которым можно добавить подпись (полный список см. в регистраторе внизу)
 
     :param message: медиафайл от пользователя
-    :param admin_chat: ID чата для админа(-ов)
     """
     if message.caption and len(message.caption) > 1000:
         return await message.reply("К сожалению, длина подписи медиафайла превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
-    await message.copy_to(admin_chat,
+    admin_chat_id = message.bot.get("admin_chat_id")
+    await message.copy_to(admin_chat_id,
                           caption=((message.caption or "") + f"\n\n#id{message.from_user.id}"),
                           parse_mode="HTML")
     await create_task(_send_expiring_notification(message))
