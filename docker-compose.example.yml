@@ -4,6 +4,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
+        stop_signal: SIGINT
         restart: unless-stopped
         environment:
             - BOT_TOKEN=${BOT_TOKEN}
