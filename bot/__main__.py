@@ -70,7 +70,8 @@ async def main():
     # Регистрация /-команд в интерфейсе
     await set_bot_commands(bot)
 
-    logger.info("Starting bot")
+    me = await bot.get_me()
+    logger.info(f"Starting @{me.username}")
 
     # Запуск поллинга
     # await dp.skip_updates()  # пропуск накопившихся апдейтов (необязательно)
