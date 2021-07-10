@@ -57,7 +57,7 @@ async def unsupported_types(message: types.Message):
             ContentType.VOICE_CHAT_ENDED, ContentType.VOICE_CHAT_PARTICIPANTS_INVITED,
             ContentType.MESSAGE_AUTO_DELETE_TIMER_CHANGED, ContentType.NEW_CHAT_PHOTO, ContentType.DELETE_CHAT_PHOTO,
             ContentType.SUCCESSFUL_PAYMENT, ContentType.PROXIMITY_ALERT_TRIGGERED,
-            ContentType.NEW_CHAT_TITLE):
+            ContentType.NEW_CHAT_TITLE, ContentType.PINNED_MESSAGE):
         await message.reply("К сожалению, этот тип сообщения не поддерживается "
                             "для пересылки от пользователей. Отправь что-нибудь другое.")
 
