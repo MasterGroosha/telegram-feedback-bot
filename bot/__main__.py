@@ -81,9 +81,8 @@ async def main():
         await bot.close()
 
 
-if __name__ == '__main__':
-    try:
-        asyncio.run(main())
-    except ValueError as ex:
-        logger.error(ex)
-        exit(1)
+try:
+    asyncio.run(main())
+except ValueError as ex:
+    logger.error(ex)
+    exit(1)
