@@ -6,6 +6,5 @@ services:
             dockerfile: Dockerfile
         stop_signal: SIGINT
         restart: unless-stopped
-        environment:
-            - BOT_TOKEN=${BOT_TOKEN}
-            - ADMIN_CHAT_ID=${ADMIN_CHAT_ID}
+        env_file:
+            - .env
