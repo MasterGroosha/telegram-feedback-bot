@@ -8,6 +8,8 @@ from aiogram.dispatcher.webhook import configure_app
 from aiogram.types import BotCommand
 
 from bot.configreader import load_config, Config
+from bot.handlers.unsupported_reply import register_admin_reply_handler
+from bot.handlers.admin_no_reply import register_admin_no_reply_handlers
 from bot.handlers.usermode import register_usermode_handlers
 from bot.handlers.adminmode import register_adminmode_handlers
 from bot.handlers.common import register_common_handlers
@@ -46,7 +48,9 @@ async def main():
     dp = Dispatcher(bot)
 
     # Регистрация хэндлеров
+    register_admin_reply_handler(dp, config.bot.admin_chat_id)
     register_adminmode_handlers(dp, config.bot.admin_chat_id)
+    register_admin_no_reply_handlers(dp, config.bot.admin_chat_id)
     register_common_handlers(dp)
     register_usermode_handlers(dp)
 
