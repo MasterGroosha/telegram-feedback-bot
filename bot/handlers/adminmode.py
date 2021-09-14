@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters import IsReplyFilter, IDFilter
 from aiogram.utils.exceptions import BotBlocked, TelegramAPIError
 
 
-def _extract_id(message: types.Message) -> Tuple[Optional[int], Optional[str]]:
+def extract_id(message: types.Message) -> Tuple[Optional[int], Optional[str]]:
     # Получение списка сущностей (entities) из текста или подписи к медиафайлу в отвечаемом сообщении
     entities = message.reply_to_message.entities or message.reply_to_message.caption_entities
     # Если всё сделано верно, то последняя (или единственная) сущность должна быть хэштегом...
@@ -48,7 +48,7 @@ async def reply_to_user(message: types.Message):
     :param message: сообщение от админа, являющееся ответом на другое сообщение
     """
 
-    user_id, error = _extract_id(message)
+    user_id, error = extract_id(message)
     if error:
         return await message.reply(error)
 
@@ -63,7 +63,7 @@ async def reply_to_user(message: types.Message):
 
 
 async def get_user_info(message: types.Message):
-    user_id, error = _extract_id(message)
+    user_id, error = extract_id(message)
     if error:
         return await message.reply(error)
     try:
