@@ -39,6 +39,7 @@ async def cmd_unban(message: types.Message):
         user_id = int(user_id)
         with suppress(KeyError):
             banned.remove(user_id)
+        with suppress(KeyError):
             shadowbanned.remove(user_id)
         await message.reply(f"ID {user_id} разблокирован")
 
