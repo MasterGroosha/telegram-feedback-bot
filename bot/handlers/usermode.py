@@ -2,6 +2,8 @@ from asyncio import create_task, sleep
 from aiogram import Dispatcher, types
 from aiogram.types import ContentType
 
+from bot.blocklists import banned, shadowbanned
+
 
 async def _send_expiring_notification(message: types.Message):
     """
@@ -24,8 +26,16 @@ async def text_message(message: types.Message):
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
     admin_chat_id = message.bot.get("admin_chat_id")
-    await message.bot.send_message(admin_chat_id, message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML")
-    await create_task(_send_expiring_notification(message))
+
+    if message.from_user.id in banned:
+        await message.answer("К сожалению, ты был заблокирован автором бота и твои сообщения не будут доставлены.")
+    elif message.from_user.id in shadowbanned:
+        return
+    else:
+        await message.bot.send_message(
+            admin_chat_id, message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML"
+        )
+        await create_task(_send_expiring_notification(message))
 
 
 async def supported_media(message: types.Message):

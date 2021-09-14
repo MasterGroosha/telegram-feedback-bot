@@ -12,6 +12,7 @@ from bot.handlers.unsupported_reply import register_admin_reply_handler
 from bot.handlers.admin_no_reply import register_admin_no_reply_handlers
 from bot.handlers.usermode import register_usermode_handlers
 from bot.handlers.adminmode import register_adminmode_handlers
+from bot.handlers.bans import register_bans_handlers
 from bot.handlers.common import register_common_handlers
 from bot.updatesworker import get_handled_updates_list
 
@@ -42,13 +43,14 @@ async def main():
 
     # Регистрация хэндлеров
     register_admin_reply_handler(dp, config.bot.admin_chat_id)
+    register_bans_handlers(dp, config.bot.admin_chat_id)
     register_adminmode_handlers(dp, config.bot.admin_chat_id)
     register_admin_no_reply_handlers(dp, config.bot.admin_chat_id)
     register_common_handlers(dp)
     register_usermode_handlers(dp)
 
     # Регистрация /-команд в интерфейсе
-    await set_bot_commands(bot)
+    await set_bot_commands(bot, config.bot.admin_chat_id)
 
     me = await bot.get_me()
     logger.info(f"Starting @{me.username}")
