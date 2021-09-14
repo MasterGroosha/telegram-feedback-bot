@@ -5,9 +5,9 @@ from os import getenv
 from aiohttp import web
 from aiogram import Bot, Dispatcher
 from aiogram.dispatcher.webhook import configure_app
-from aiogram.types import BotCommand
 
 from bot.configreader import load_config, Config
+from bot.commandsworker import set_bot_commands
 from bot.handlers.unsupported_reply import register_admin_reply_handler
 from bot.handlers.admin_no_reply import register_admin_no_reply_handlers
 from bot.handlers.usermode import register_usermode_handlers
@@ -16,13 +16,6 @@ from bot.handlers.common import register_common_handlers
 from bot.updatesworker import get_handled_updates_list
 
 logger = logging.getLogger(__name__)
-
-
-async def set_bot_commands(bot: Bot):
-    commands = [
-        BotCommand(command="help", description="Справка по использованию бота"),
-    ]
-    await bot.set_my_commands(commands)
 
 
 async def main():
