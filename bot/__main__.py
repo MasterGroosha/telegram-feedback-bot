@@ -59,7 +59,7 @@ async def main():
     if config.app.webhook_enabled:
         app = web.Application()
         configure_app(dp, app, config.app.webhook_path)
-        runner = web.AppRunner(app)
+        runner = web.AppRunner(app, access_log=None)
         await runner.setup()
         await bot.set_webhook(f"https://{config.app.webhook_domain}{config.app.webhook_path}")
         site = web.TCPSite(runner, config.app.host, config.app.port)
