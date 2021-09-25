@@ -1,5 +1,8 @@
 # Feedback Bot
 
+<a href="https://hub.docker.com/r/groosha/telegram-feedback-bot"><img src="https://img.shields.io/badge/Docker%20Hub-telegram--feedback--bot-blue"></a>   
+
+
 ## Предыстория
 
 Когда-то давно в Telegram все пересланные сообщения содержали информацию об авторе, в частности, ID. Благодаря этому 
@@ -25,7 +28,8 @@
 ## Установка 
 
 Весь бот представлен в виде модуля, поэтому запускается как `python -m bot`, и легко запихивается в Systemd и Docker. 
-Желающие взять готовый Docker-образ могут проследовать [сюда](https://git.groosha.space/shared/telegram-feedback-bot/container_registry/27).
+Желающие взять готовый Docker-образ могут проследовать [сюда](https://hub.docker.com/r/groosha/telegram-feedback-bot). 
+В наличии сборки для архитектур amd64 и ARM64.
 
 Все настройки берутся из переменных окружения в качестве примера лежит файл `env_dist`, из которого можно получить 
 полноценный `.env`. Как уже понятно, установка заточена под Docker, однако нет никаких проблем с запуском через Systemd.
