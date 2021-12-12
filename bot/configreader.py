@@ -16,6 +16,8 @@ class App:
     webhook_path: Optional[str]
     host: Optional[str]
     port: Optional[int]
+    use_local_server: bool
+    local_server_host: Optional[str]
 
 
 @dataclass
@@ -35,7 +37,9 @@ def load_config() -> Config:
             webhook_domain=getenv("WEBHOOK_DOMAIN"),
             webhook_path=getenv("WEBHOOK_PATH"),
             host=getenv("APP_HOST", "0.0.0.0"),
-            port=int(getenv("APP_PORT", 9000))
+            port=int(getenv("APP_PORT", 9000)),
+            use_local_server=getenv("USE_LOCAL_SERVER", "no") in ("yes", "1", "true"),
+            local_server_host=getenv("LOCAL_SERVER_ADDR")
         )
     )
 

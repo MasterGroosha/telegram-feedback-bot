@@ -3,6 +3,7 @@ import logging
 
 from aiohttp import web
 from aiogram import Bot, Dispatcher
+from aiogram.bot.api import TelegramAPIServer
 from aiogram.dispatcher.webhook import configure_app
 
 from bot.configreader import load_config, Config
@@ -37,6 +38,10 @@ async def main():
         raise ValueError(f'Идентификатор "{config.bot.admin_chat_id}" не является числом. Бот не может быть запущен.')
 
     bot = Bot(token=config.bot.token)
+
+    if config.app.use_local_server is True:
+        bot.server = TelegramAPIServer.from_base(config.app.local_server_host)
+
     bot["admin_chat_id"] = config.bot.admin_chat_id  # Добавление айдишника к объекту bot
     dp = Dispatcher(bot)
 
