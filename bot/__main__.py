@@ -65,7 +65,11 @@ async def main():
         configure_app(dp, app, config.app.webhook_path)
         runner = web.AppRunner(app, access_log=None)
         await runner.setup()
-        await bot.set_webhook(f"https://{config.app.webhook_domain}{config.app.webhook_path}")
+        if config.app.use_local_server is False:
+            webhook_url = f"https://{config.app.webhook_domain}{config.app.webhook_path}"
+        else:
+            webhook_url = f"http://{config.app.webhook_domain}:{config.app.port}{config.app.webhook_path}"
+        await bot.set_webhook(webhook_url)
         site = web.TCPSite(runner, config.app.host, config.app.port)
         print("Starting webhook")
         try:
