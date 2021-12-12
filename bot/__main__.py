@@ -1,6 +1,5 @@
 import asyncio
 import logging
-from os import getenv
 
 from aiohttp import web
 from aiogram import Bot, Dispatcher
