@@ -33,7 +33,7 @@ def load_config() -> Config:
             admin_chat_id=int(getenv("ADMIN_CHAT_ID", 0))
         ),
         app=App(
-            webhook_enabled=bool(getenv("WEBHOOK_ENABLED", False)),
+            webhook_enabled=getenv("WEBHOOK_ENABLED", "no") in ("yes", "1", "true"),
             webhook_domain=getenv("WEBHOOK_DOMAIN"),
             webhook_path=getenv("WEBHOOK_PATH"),
             host=getenv("APP_HOST", "0.0.0.0"),
