@@ -16,8 +16,6 @@ from bot.handlers.bans import register_bans_handlers
 from bot.handlers.common import register_common_handlers
 from bot.updatesworker import get_handled_updates_list
 
-logger = logging.getLogger(__name__)
-
 
 async def main():
     # Настройка логирования в stdout
@@ -57,7 +55,7 @@ async def main():
     await set_bot_commands(bot, config.bot.admin_chat_id)
 
     me = await bot.get_me()
-    logger.info(f"Starting @{me.username}")
+    logging.info(f"Starting @{me.username}")
 
     # Запуск поллинга или вебхуков
     if config.app.webhook_enabled:
@@ -65,11 +63,15 @@ async def main():
         configure_app(dp, app, config.app.webhook_path)
         runner = web.AppRunner(app, access_log=None)
         await runner.setup()
+
+        # При использовании локального Bot API сервера, формируем URL немного по-другому,
+        # т.к. в этом случае можно использовать любые порты
         if config.app.use_local_server is False:
             webhook_url = f"https://{config.app.webhook_domain}{config.app.webhook_path}"
         else:
             webhook_url = f"http://{config.app.webhook_domain}:{config.app.port}{config.app.webhook_path}"
         await bot.set_webhook(webhook_url)
+
         site = web.TCPSite(runner, config.app.host, config.app.port)
         print("Starting webhook")
         try:
