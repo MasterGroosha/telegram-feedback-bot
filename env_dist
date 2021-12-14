@@ -1,7 +1,27 @@
+# Токен бота, можно получить у https://t.me/botfather
 BOT_TOKEN=1234567890:AaBbCcDdEeFGgHhIiJjKkLlMmNnOoPpQq
+
+# ID чата, куда будут приходить сообщения. Можно даже группа или канал,
+# в этом случае все участники группы/канала смогут отвечать на сообщения
 ADMIN_CHAT_ID=987654321
-WEBHOOK_ENABLED=1
+
+# Переключение на вебхуки вместо поллинга. Для включения, укажите "yes", "1" или "true" (без кавычек)
+WEBHOOK_ENABLED=yes
+
+# Основной домен для установки вебхука
 WEBHOOK_DOMAIN=feedbackbot.example.com
+
+# Путь к URL вебхука на домене
 WEBHOOK_PATH=/extra/path/from/root
+
+# IP-адрес интерфейса, на котором запускать бота. 0.0.0.0 == на всех интерфейсах
 APP_HOST=0.0.0.0
+
+# Порт интерфейса, на котором запускать бота
 APP_PORT=9000
+
+# Использование собственного сервера Bot API. Для включения, укажите "yes", "1" или "true" (без кавычек)
+USE_LOCAL_SERVER=no
+
+# Адрес собственного сервера Bot API
+LOCAL_SERVER_ADDR=mybotapi.local
