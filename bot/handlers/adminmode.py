@@ -1,22 +1,21 @@
-from typing import Tuple, Optional
 from aiogram import Dispatcher, types
 from aiogram.dispatcher.filters import IsReplyFilter, IDFilter
 from aiogram.utils.exceptions import BotBlocked, TelegramAPIError
 
 
-def extract_id(message: types.Message) -> Tuple[Optional[int], Optional[str]]:
+def extract_id(message: types.Message) -> int:
     # Получение списка сущностей (entities) из текста или подписи к медиафайлу в отвечаемом сообщении
     entities = message.reply_to_message.entities or message.reply_to_message.caption_entities
     # Если всё сделано верно, то последняя (или единственная) сущность должна быть хэштегом...
     if not entities or entities[-1].type != "hashtag":
-        return None, "Не удалось извлечь ID для ответа!"
+        raise ValueError("Не удалось извлечь ID для ответа!")
 
     # ... более того, хэштег должен иметь вид #id123456, где 123456 — ID получателя
     hashtag = entities[-1].get_text(message.reply_to_message.text or message.reply_to_message.caption)
     if len(hashtag) < 4 or not hashtag[3:].isdigit():  # либо просто #id, либо #idНЕЦИФРЫ
-        return None, "Некорректный ID для ответа!"
+        raise ValueError("Некорректный ID для ответа!")
 
-    return hashtag[3:], None
+    return hashtag[3:]
 
 
 async def reply_to_user(message: types.Message):
@@ -27,9 +26,10 @@ async def reply_to_user(message: types.Message):
     :param message: сообщение от админа, являющееся ответом на другое сообщение
     """
 
-    user_id, error = extract_id(message)
-    if error:
-        return await message.reply(error)
+    try:
+        user_id = extract_id(message)
+    except ValueError as ex:
+        return await message.reply(str(ex))
 
     # Вырезаем ID и пробуем отправить копию сообщения.
     # В теории, это можно оформить через errors_handler, но мне так нагляднее
@@ -42,9 +42,10 @@ async def reply_to_user(message: types.Message):
 
 
 async def get_user_info(message: types.Message):
-    user_id, error = extract_id(message)
-    if error:
-        return await message.reply(error)
+    try:
+        user_id = extract_id(message)
+    except ValueError as ex:
+        return await message.reply(str(ex))
     try:
         user = await message.bot.get_chat(user_id)
     except TelegramAPIError as ex:

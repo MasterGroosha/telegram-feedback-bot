@@ -8,40 +8,40 @@ from bot.handlers.adminmode import extract_id
 
 
 async def cmd_ban(message: types.Message):
-    user_id, error = extract_id(message)
-    if error is not None:
-        await message.reply(error)
-    else:
-        banned.add(int(user_id))
-        await message.reply(
-            f"ID {user_id} добавлен в список заблокированных. "
-            f"При попытке отправить сообщение пользователь получит уведомление о том, что заблокирован."
-        )
+    try:
+        user_id = extract_id(message)
+    except ValueError as ex:
+        return await message.reply(str(ex))
+    banned.add(int(user_id))
+    await message.reply(
+        f"ID {user_id} добавлен в список заблокированных. "
+        f"При попытке отправить сообщение пользователь получит уведомление о том, что заблокирован."
+    )
 
 
 async def cmd_shadowban(message: types.Message):
-    user_id, error = extract_id(message)
-    if error is not None:
-        await message.reply(error)
-    else:
-        shadowbanned.add(int(user_id))
-        await message.reply(
-            f"ID {user_id} добавлен в список скрытно заблокированных. "
-            f"При попытке отправить сообщение пользователь не узнает, что заблокирован."
-        )
+    try:
+        user_id = extract_id(message)
+    except ValueError as ex:
+        return await message.reply(str(ex))
+    shadowbanned.add(int(user_id))
+    await message.reply(
+        f"ID {user_id} добавлен в список скрытно заблокированных. "
+        f"При попытке отправить сообщение пользователь не узнает, что заблокирован."
+    )
 
 
 async def cmd_unban(message: types.Message):
-    user_id, error = extract_id(message)
-    if error is not None:
-        await message.reply(error)
-    else:
-        user_id = int(user_id)
-        with suppress(KeyError):
-            banned.remove(user_id)
-        with suppress(KeyError):
-            shadowbanned.remove(user_id)
-        await message.reply(f"ID {user_id} разблокирован")
+    try:
+        user_id = extract_id(message)
+    except ValueError as ex:
+        return await message.reply(str(ex))
+    user_id = int(user_id)
+    with suppress(KeyError):
+        banned.remove(user_id)
+    with suppress(KeyError):
+        shadowbanned.remove(user_id)
+    await message.reply(f"ID {user_id} разблокирован")
 
 
 async def cmd_list_banned(message: types.Message):
