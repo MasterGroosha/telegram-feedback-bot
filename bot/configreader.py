@@ -30,7 +30,7 @@ def load_config() -> Config:
     return Config(
         bot=Bot(
             token=getenv("BOT_TOKEN"),
-            admin_chat_id=int(getenv("ADMIN_CHAT_ID", 0))
+            admin_chat_id=int(getenv("ADMIN_CHAT_ID"))
         ),
         app=App(
             webhook_enabled=getenv("WEBHOOK_ENABLED", "no") in ("yes", "1", "true"),
