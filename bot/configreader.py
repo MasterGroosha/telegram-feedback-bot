@@ -7,6 +7,7 @@ from typing import Optional
 class Bot:
     token: str
     admin_chat_id: int
+    remove_sent_confirmation: bool
 
 
 @dataclass
@@ -30,7 +31,8 @@ def load_config() -> Config:
     return Config(
         bot=Bot(
             token=getenv("BOT_TOKEN"),
-            admin_chat_id=int(getenv("ADMIN_CHAT_ID"))
+            admin_chat_id=int(getenv("ADMIN_CHAT_ID")),
+            remove_sent_confirmation=getenv("REMOVE_SENT_CONFIRMATION", "yes") in ("yes", "1", "true")
         ),
         app=App(
             webhook_enabled=getenv("WEBHOOK_ENABLED", "no") in ("yes", "1", "true"),

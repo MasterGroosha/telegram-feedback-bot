@@ -11,9 +11,11 @@ async def _send_expiring_notification(message: types.Message):
 
     :param message: сообщение, на которое бот отвечает подтверждением отправки
     """
+    remove_sent_confirmation = message.bot.get("remove_sent_confirmation")
     msg = await message.reply("Сообщение отправлено!")
-    await sleep(5.0)
-    await msg.delete()
+    if remove_sent_confirmation:
+        await sleep(5.0)
+        await msg.delete()
 
 
 async def text_message(message: types.Message):

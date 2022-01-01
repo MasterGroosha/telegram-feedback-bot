@@ -41,6 +41,8 @@ async def main():
         bot.server = TelegramAPIServer.from_base(config.app.local_server_host)
 
     bot["admin_chat_id"] = config.bot.admin_chat_id  # Добавление айдишника к объекту bot
+    # Добавление флага "удалять или нет подтверждения отправки"
+    bot["remove_sent_confirmation"] = config.bot.remove_sent_confirmation
     dp = Dispatcher(bot)
 
     # Регистрация хэндлеров
