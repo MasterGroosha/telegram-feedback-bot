@@ -1,9 +1,10 @@
 from aiogram import Bot
-from aiogram.types import BotCommand
-from aiogram.types.bot_command_scope import BotCommandScopeDefault, BotCommandScopeChat
+from aiogram.types import BotCommand, BotCommandScopeDefault, BotCommandScopeChat
+
+from bot.config_reader import config
 
 
-async def set_bot_commands(bot: Bot, admin_chat_id: int):
+async def set_bot_commands(bot: Bot):
     usercommands = [
         BotCommand(command="help", description="Справка по использованию бота"),
     ]
@@ -15,6 +16,8 @@ async def set_bot_commands(bot: Bot, admin_chat_id: int):
         BotCommand(command="shadowban", description="Скрытно заблокировать пользователя"),
         BotCommand(command="unban", description="Разблокировать пользователя"),
         BotCommand(command="list_banned", description="Список заблокированных"),
-        BotCommand(command="help", description="Справка для админа бота"),
     ]
-    await bot.set_my_commands(admin_commands, scope=BotCommandScopeChat(chat_id=admin_chat_id))
+    await bot.set_my_commands(
+        admin_commands,
+        scope=BotCommandScopeChat(chat_id=config.admin_chat_id)
+    )

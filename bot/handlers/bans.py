@@ -1,15 +1,22 @@
 from contextlib import suppress
 
-from aiogram import Dispatcher, types
-from aiogram.dispatcher.filters import IsReplyFilter, IDFilter
+from aiogram import Router, F
+from aiogram.dispatcher.filters import Command
+from aiogram.types import Message
 
 from bot.blocklists import banned, shadowbanned
+from bot.config_reader import config
 from bot.handlers.adminmode import extract_id
 
+router = Router()
+router.message.filter(F.chat.id == config.admin_chat_id)
 
-async def cmd_ban(message: types.Message):
+
+@router.message(Command(commands=["ban"]), F.reply_to_message)
+async def cmd_ban(message: Message):
     try:
-        user_id = extract_id(message)
+        user_id = extract_id(message.reply_to_message)
+        print(user_id)
     except ValueError as ex:
         return await message.reply(str(ex))
     banned.add(int(user_id))
@@ -19,7 +26,8 @@ async def cmd_ban(message: types.Message):
     )
 
 
-async def cmd_shadowban(message: types.Message):
+@router.message(Command(commands=["shadowban"]), F.reply_to_message)
+async def cmd_shadowban(message: Message):
     try:
         user_id = extract_id(message)
     except ValueError as ex:
@@ -31,7 +39,8 @@ async def cmd_shadowban(message: types.Message):
     )
 
 
-async def cmd_unban(message: types.Message):
+@router.message(Command(commands=["unban"]), F.reply_to_message)
+async def cmd_unban(message: Message):
     try:
         user_id = extract_id(message)
     except ValueError as ex:
@@ -44,7 +53,8 @@ async def cmd_unban(message: types.Message):
     await message.reply(f"ID {user_id} разблокирован")
 
 
-async def cmd_list_banned(message: types.Message):
+@router.message(Command(commands=["list_banned"]))
+async def cmd_list_banned(message: Message):
     has_bans = len(banned) > 0 or len(shadowbanned) > 0
     if not has_bans:
         await message.answer("Нет заблокированных пользователей")
@@ -60,14 +70,3 @@ async def cmd_list_banned(message: types.Message):
             result.append(f"• #id{item}")
 
     await message.answer("\n".join(result))
-
-
-def register_bans_handlers(dp: Dispatcher, admin_chat_id: int):
-    dp.register_message_handler(cmd_ban, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
-                                commands="ban")
-    dp.register_message_handler(cmd_shadowban, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
-                                commands="shadowban")
-    dp.register_message_handler(cmd_unban, IsReplyFilter(is_reply=True), IDFilter(chat_id=admin_chat_id),
-                                commands="unban")
-    dp.register_message_handler(cmd_list_banned, IDFilter(chat_id=admin_chat_id),
-                                commands="list_banned")

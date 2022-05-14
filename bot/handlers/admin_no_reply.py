@@ -1,20 +1,19 @@
-from aiogram import Dispatcher, types
-from aiogram.dispatcher.filters import IsReplyFilter, IDFilter
+from aiogram import Router, F
+from aiogram.types import ContentType, Message
+
+from bot.config_reader import config
+
+router = Router()
+router.message.filter(F.chat.id == config.admin_chat_id)
 
 
-async def has_no_reply(message: types.Message):
+@router.message(~F.reply_to_message)
+async def has_no_reply(message: Message):
     """
     Хэндлер на сообщение от админа, не содержащее ответ (reply).
     В этом случае надо кинуть ошибку.
 
     :param message: сообщение от админа, не являющееся ответом на другое сообщение
     """
-    if message.content_type not in (types.ContentType.NEW_CHAT_MEMBERS, types.ContentType.LEFT_CHAT_MEMBER):
+    if message.content_type not in (ContentType.NEW_CHAT_MEMBERS, ContentType.LEFT_CHAT_MEMBER):
         await message.reply("Это сообщение не является ответом на какое-либо другое!")
-
-
-def register_admin_no_reply_handlers(dp: Dispatcher, admin_chat_id: int):
-    dp.register_message_handler(
-        has_no_reply, IsReplyFilter(is_reply=False), IDFilter(chat_id=admin_chat_id),
-        content_types=types.ContentTypes.ANY
-    )
