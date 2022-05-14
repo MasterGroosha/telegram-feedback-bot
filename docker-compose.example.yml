@@ -1,10 +1,7 @@
 version: "3.8"
 services:
     bot:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: groosha/telegram-feedback-bot:latest
         stop_signal: SIGINT
         restart: unless-stopped
-        env_file:
-            - .env
+        env_file: .env
