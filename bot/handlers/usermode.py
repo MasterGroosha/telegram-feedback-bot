@@ -42,7 +42,7 @@ async def cmd_help(message: Message):
     
     
 
-urlkb = InlineKeyboardMarkup(row_width=1)
+urlkb = InlineKeyboardBuilder(row_width=1)
 urlButton = InlineKeyboardButton(text={message.from_user.first_name}, url='tg://user?id={message.from_user.id}')
 urlkb.add(urlButton)
 
