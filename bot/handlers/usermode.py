@@ -37,8 +37,14 @@ async def cmd_help(message: Message):
 
     :param message: сообщение от пользователя с командой /help
     """
+    buttons = [
+        types.InlineKeyboardButton(text="🕋 Владелец", url="https://t.me/ansdamn"),
+        types.InlineKeyboardButton(text="⛩ Вебсайт", url="https://yourmom.tk")
+    ]
+    keyboard = types.InlineKeyboardMarkup(row_width=1)
+    keyboard.add(*buttons)
     await message.answer(
-        "За спам прописываю в ебало")
+        "За спам прописываю в ебало", reply_markup=keyboard)
     
     
 
