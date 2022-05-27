@@ -66,7 +66,7 @@ async def text_message(message: Message, bot: Bot):
     """
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(
-        text={message.from_user.first_name}, url="tg://user?id={message.from_user.id}")
+        text="{message.from_user.first_name}", url="tg://user?id={message.from_user.id}")
     )
     if len(message.text) > 4000:
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
@@ -94,7 +94,7 @@ async def supported_media(message: Message):
     """
     builder = InlineKeyboardBuilder()
     builder.row(InlineKeyboardButton(
-        text={message.from_user.first_name}, url="tg://user?id={message.from_user.id}")
+        text="{message.from_user.first_name}", url="tg://user?id={message.from_user.id}")
     )
     if message.caption and len(message.caption) > 1000:
         return await message.reply("К сожалению, длина подписи медиафайла превышает допустимый размер. "
