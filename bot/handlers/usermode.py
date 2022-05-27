@@ -42,9 +42,9 @@ async def cmd_help(message: Message):
     
     
 
-urlkb = InlineKeyboardMarkup(row_width=1)
-urlButton = InlineKeyboardButton(text={message.from_user.first_name}, url='tg://user?id={message.from_user.id}')
-urlkb.add(urlButton)
+# urlkb = InlineKeyboardMarkup(row_width=1)
+# urlButton = InlineKeyboardButton(text={message.from_user.first_name}, url='tg://user?id={message.from_user.id}')
+# urlkb.add(urlButton)
 
 
 @router.message(F.text)
@@ -65,7 +65,7 @@ async def text_message(message: Message, bot: Bot):
     else:
         await bot.send_message(
             config.admin_chat_id,
-            message.html_text + f"\n\nLink: <a href='tg://user?id={message.from_user.id}'><b>{message.from_user.first_name}</b></a>\n#id{message.from_user.id}", parse_mode="HTML", reply_markup=urlkb
+            message.html_text + f"\n\nLink: <a href='tg://user?id={message.from_user.id}'><b>{message.from_user.first_name}</b></a>\n#id{message.from_user.id}", parse_mode="HTML"
         )
         create_task(_send_expiring_notification(message))
 
@@ -89,7 +89,7 @@ async def supported_media(message: Message):
         await message.copy_to(
             config.admin_chat_id,
             caption=((message.caption or "") + f"\n\nLink:<a href='tg://user?id={message.from_user.id}'><b>{message.from_user.first_name}</b></a>\n#id{message.from_user.id}"),
-            parse_mode="HTML", reply_markup=urlkb
+            parse_mode="HTML"
         )
         create_task(_send_expiring_notification(message))
 
