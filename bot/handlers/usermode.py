@@ -64,6 +64,10 @@ async def text_message(message: Message, bot: Bot):
 
     :param message: сообщение от пользователя для админа(-ов)
     """
+    builder = InlineKeyboardBuilder()
+    builder.row(InlineKeyboardButton(
+        text="{message.from_user.first_name}", url="tg://user?id={message.from_user.id}")
+    )
     if len(message.text) > 4000:
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
@@ -75,7 +79,7 @@ async def text_message(message: Message, bot: Bot):
     else:
         await bot.send_message(
             config.admin_chat_id,
-            message.html_text + f"\n\n<b>Link:</b> <a href='tg://user?id={message.from_user.id}'><b>{message.from_user.first_name}</b></a>\n#id{message.from_user.id}", parse_mode="HTML"
+            message.html_text + f"\n\n<b>Link:</b> <a href='tg://user?id={message.from_user.id}'><b>{message.from_user.first_name}</b></a>\n#id{message.from_user.id}", parse_mode="HTML", reply_markup=builder.as_markup()
         )
         create_task(_send_expiring_notification(message))
 
@@ -88,6 +92,10 @@ async def supported_media(message: Message):
 
     :param message: медиафайл от пользователя
     """
+    builder = InlineKeyboardBuilder()
+    builder.row(InlineKeyboardButton(
+        text="{message.from_user.first_name}", url="tg://user?id={message.from_user.id}")
+    )
     if message.caption and len(message.caption) > 1000:
         return await message.reply("К сожалению, длина подписи медиафайла превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
@@ -99,7 +107,7 @@ async def supported_media(message: Message):
         await message.copy_to(
             config.admin_chat_id,
             caption=((message.caption or "") + f"\n\n<b>Link:</b> <a href='tg://user?id={message.from_user.id}'><b>{message.from_user.first_name}</b></a>\n#id{message.from_user.id}"),
-            parse_mode="HTML"
+            parse_mode="HTML", reply_markup=builder.as_markup()
         )
         create_task(_send_expiring_notification(message))
 
