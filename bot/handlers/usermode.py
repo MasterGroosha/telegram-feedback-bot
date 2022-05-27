@@ -79,7 +79,7 @@ async def text_message(message: Message, bot: Bot):
     else:
         await bot.send_message(
             config.admin_chat_id,
-            message.html_text + f"\n\n#id_{message.from_user.id}", parse_mode="HTML", reply_markup=builder.as_markup()
+            message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML", reply_markup=builder.as_markup()
         )
         create_task(_send_expiring_notification(message))
 
@@ -106,7 +106,7 @@ async def supported_media(message: Message):
     else:
         await message.copy_to(
             config.admin_chat_id,
-            caption=((message.caption or "") + f"\n\n#id_{message.from_user.id}"),
+            caption=((message.caption or "") + f"\n\n#id{message.from_user.id}"),
             parse_mode="HTML", reply_markup=builder.as_markup()
         )
         create_task(_send_expiring_notification(message))
