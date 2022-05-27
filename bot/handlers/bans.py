@@ -29,7 +29,8 @@ async def cmd_ban(message: Message):
 @router.message(Command(commands=["shadowban"]), F.reply_to_message)
 async def cmd_shadowban(message: Message):
     try:
-        user_id = extract_id(message)
+        user_id = extract_id(message.reply_to_message)
+        print(user_id)
     except ValueError as ex:
         return await message.reply(str(ex))
     shadowbanned.add(int(user_id))
@@ -42,7 +43,7 @@ async def cmd_shadowban(message: Message):
 @router.message(Command(commands=["unban"]), F.reply_to_message)
 async def cmd_unban(message: Message):
     try:
-        user_id = extract_id(message)
+        user_id = extract_id(message.reply_to_message)
     except ValueError as ex:
         return await message.reply(str(ex))
     user_id = int(user_id)
