@@ -37,15 +37,11 @@ async def cmd_help(message: Message):
 
     :param message: сообщение от пользователя с командой /help
     """
-    buttons = InlineKeyboardBuilder()\
-    .button(text="key1")\
-    .button(text="key2")\
-    .adjust(3, repeat=True)\
-    .to_markup()
-   # buttons = [
-    #    InlineKeyboardButton(text="🕋 Владелец", url="https://t.me/ansdamn"),
-     #   InlineKeyboardButton(text="⛩ Вебсайт", url="https://yourmom.tk")
-#    ]
+   
+    buttons = [
+        InlineKeyboardButton(text="🕋 Владелец", url="https://t.me/ansdamn"),
+        InlineKeyboardButton(text="⛩ Вебсайт", url="https://yourmom.tk")
+    ]
     keyboard = InlineKeyboardMarkup(row_width=1)
     keyboard.add(*buttons)
     await message.answer(
