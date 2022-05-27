@@ -13,15 +13,7 @@ router = Router()
 
 
 async def _send_expiring_notification(message: Message):
-    """
-    Отправляет "самоуничтожающееся" через 5 секунд сообщение
-
-    :param message: сообщение, на которое бот отвечает подтверждением отправки
-    """
-    msg = await message.reply("Сообщение отправлено!")
-    if config.remove_sent_confirmation:
-        await sleep(5.0)
-        await msg.delete()
+    return
 
 
 @router.message(Command(commands=["start"]))
@@ -32,7 +24,7 @@ async def cmd_start(message: Message):
     :param message: сообщение от пользователя с командой /start
     """
     await message.answer(
-        "Привет ✌️\n"
+        "Саламалекум ✌️\n"
         "C моей помощью ты можешь связаться с моим хозяином и получить от него ответ. "
         "Просто напиши что-нибудь в этот диалог.")
 
@@ -63,7 +55,7 @@ async def text_message(message: Message, bot: Bot):
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
 
     if message.from_user.id in banned:
-        await message.answer("К сожалению, автор бота решил тебя заблокировать, сообщения не будут доставлены.")
+        await message.answer("К сожалению, автор бота решил тебя заблокировать, сообщения не будут доставлены. Лох.")
     elif message.from_user.id in shadowbanned:
         return
     else:
@@ -86,7 +78,7 @@ async def supported_media(message: Message):
         return await message.reply("К сожалению, длина подписи медиафайла превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
     if message.from_user.id in banned:
-        await message.answer("К сожалению, автор бота решил тебя заблокировать, сообщения не будут доставлены.")
+        await message.answer("К сожалению, автор бота решил тебя заблокировать, сообщения не будут доставлены. Лох.")
     elif message.from_user.id in shadowbanned:
         return
     else:
