@@ -61,7 +61,7 @@ async def text_message(message: Message, bot: Bot):
     else:
         await bot.send_message(
             config.admin_chat_id,
-            message.html_text + f"\n\n<a href='tg://user?id={message.from_user.id}'>inline mention of a user</a>\n#id{message.from_user.id}", parse_mode="HTML"
+            message.html_text + f"\n\n<a href='tg://user?id={message.from_user.id}'>LINK</a>\n#id{message.from_user.id}", parse_mode="HTML"
         )
         create_task(_send_expiring_notification(message))
 
@@ -84,7 +84,7 @@ async def supported_media(message: Message):
     else:
         await message.copy_to(
             config.admin_chat_id,
-            caption=((message.caption or "") + f"\n\n<a href='tg://user?id={message.from_user.id}'>inline mention of a user</a>\n#id{message.from_user.id}"),
+            caption=((message.caption or "") + f"\n\n<a href='tg://user?id={message.from_user.id}'>LINK</a>\n#id{message.from_user.id}"),
             parse_mode="HTML"
         )
         create_task(_send_expiring_notification(message))
