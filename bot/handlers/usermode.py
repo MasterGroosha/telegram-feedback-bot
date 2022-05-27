@@ -5,6 +5,7 @@ from aiogram.dispatcher.filters import Command
 from aiogram.types import ContentType
 from aiogram.types import Message
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from bot.blocklists import banned, shadowbanned
 from bot.config_reader import config
