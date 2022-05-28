@@ -10,7 +10,6 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bot.blocklists import banned, shadowbanned
 from bot.config_reader import config
 from bot.filters import SupportedMediaFilter
-from aiogram_broadcaster import TextBroadcaster
 
 router = Router()
 
@@ -18,9 +17,6 @@ router = Router()
 async def _send_expiring_notification(message: Message):
     return
 
-
-async def notify_admins(admins):
-    await TextBroadcaster(admins, 'The bot is running!').run()
 
 
 
