@@ -77,14 +77,15 @@ async def text_message(message: Message, bot: Bot):
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
     
     check_member = await bot.get_chat_member(-1001565513038, message.from_user.id)
-    if check_member.status not in ["member", "creator"]:
-        return await message.reply("Перед тем как написать мне, подпишитесь на канал и ждите аппрува\nhttps://t.me/+Tr4jNXkJUjoxNDhl")
+   
         
 
     if message.from_user.id in banned:
         await message.answer("К сожалению, автор бота решил тебя заблокировать, сообщения не будут доставлены. Лох.")
     elif message.from_user.id in shadowbanned:
         return
+    elif check_member.status not in ["member", "creator"]:
+        return await message.reply("Перед тем как написать мне, подпишитесь на канал и ждите аппрува\nhttps://t.me/+Tr4jNXkJUjoxNDhl")
     else:
         await bot.send_message(
             config.admin_chat_id,
