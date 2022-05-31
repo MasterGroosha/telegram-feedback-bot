@@ -72,6 +72,11 @@ async def text_message(message: Message, bot: Bot):
     builder.row(InlineKeyboardButton(
         text=f"{message.from_user.first_name}", url=f"tg://user?id={message.from_user.id}")
     )
+    
+    builderz = InlineKeyboardBuilder()
+    builderz.row(InlineKeyboardButton(
+        text="🫂 Вступить", url="https://t.me/+Tr4jNXkJUjoxNDhl")
+    )
     if len(message.text) > 4000:
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
@@ -85,7 +90,7 @@ async def text_message(message: Message, bot: Bot):
     elif message.from_user.id in shadowbanned:
         return
     elif check_member.status not in ["member", "creator"]:
-        return await message.reply("Перед тем как написать мне, подпишитесь на канал и ждите аппрува\nhttps://t.me/+Tr4jNXkJUjoxNDhl")
+        return await message.reply("<b>Перед тем как написать мне, вступите и ждите аппрува</b>", reply_markup=builderz.as_markup())
     else:
         await bot.send_message(
             config.admin_chat_id,
@@ -107,6 +112,10 @@ async def supported_media(message: Message):
         text=f"{message.from_user.first_name}", url=f"tg://user?id={message.from_user.id}")
     )
     
+    builderz = InlineKeyboardBuilder()
+    builderz.row(InlineKeyboardButton(
+        text="🫂 Вступить", url="https://t.me/+Tr4jNXkJUjoxNDhl")
+    )
     check_member = await bot.get_chat_member(-1001565513038, message.from_user.id)
 
     if message.caption and len(message.caption) > 1000:
@@ -117,7 +126,7 @@ async def supported_media(message: Message):
     elif message.from_user.id in shadowbanned:
         return
     elif check_member.status not in ["member", "creator"]:
-        return await message.reply("Перед тем как написать мне, подпишитесь на канал и ждите аппрува\nhttps://t.me/+Tr4jNXkJUjoxNDhl")
+        return await message.reply("<b>Перед тем как написать мне, подпишитесь на канал и ждите аппрува</b>", reply_markup=builderz.as_markup())
     else:
         await message.copy_to(
             config.admin_chat_id,
