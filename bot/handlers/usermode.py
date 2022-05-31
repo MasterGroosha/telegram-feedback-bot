@@ -90,7 +90,7 @@ async def text_message(message: Message, bot: Bot):
     elif message.from_user.id in shadowbanned:
         return
     elif check_member.status not in ["member", "creator"]:
-        return await message.reply("<b>Перед тем как написать мне, вступите и ждите аппрува</b>", reply_markup=builderz.as_markup())
+        return await message.reply(f"<b>Перед тем как написать мне, вступите и ждите аппрува</b>", parse_mode="HTML", reply_markup=builderz.as_markup())
     else:
         await bot.send_message(
             config.admin_chat_id,
@@ -126,7 +126,7 @@ async def supported_media(message: Message):
     elif message.from_user.id in shadowbanned:
         return
     elif check_member.status not in ["member", "creator"]:
-        return await message.reply("<b>Перед тем как написать мне, подпишитесь на канал и ждите аппрува</b>", reply_markup=builderz.as_markup())
+        return await message.reply(f"<b>Перед тем как написать мне, подпишитесь на канал и ждите аппрува</b>", parse_mode="HTML", reply_markup=builderz.as_markup())
     else:
         await message.copy_to(
             config.admin_chat_id,
