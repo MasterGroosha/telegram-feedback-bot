@@ -76,7 +76,7 @@ async def text_message(message: Message, bot: Bot):
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
     
-    check_member = await bot.get_chat_member(-1001720202390, message.from_user.id)
+    check_member = await bot.get_chat_member(-1001565513038, message.from_user.id)
     if check_member.status not in ["member"]:
         await message.answer("Перед тем как написать мне, подпишитесь на канал и ждите аппрува\nhttps://t.me/+VzjImwUKD99jYzY1")
         
