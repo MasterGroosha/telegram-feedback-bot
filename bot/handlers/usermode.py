@@ -10,6 +10,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from bot.blocklists import banned, shadowbanned
 from bot.config_reader import config
 from bot.filters import SupportedMediaFilter
+from aiogram.methods.get_chat_member import GetChatMember
+
 
 router = Router()
 
@@ -73,6 +75,11 @@ async def text_message(message: Message, bot: Bot):
     if len(message.text) > 4000:
         return await message.reply("К сожалению, длина этого сообщения превышает допустимый размер. "
                                    "Пожалуйста, сократи свою мысль и попробуй ещё раз.")
+    
+    check_member = await bot.get_chat_member(1720202390, message.from_user.id)
+    if check_member.status not in ["member"]:
+        await message.answer("Перед тем как написать мне, подпишитесь на канал и ждите аппрува\nhttps://t.me/+VzjImwUKD99jYzY1")
+        
 
     if message.from_user.id in banned:
         await message.answer("К сожалению, автор бота решил тебя заблокировать, сообщения не будут доставлены. Лох.")
