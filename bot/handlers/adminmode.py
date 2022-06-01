@@ -78,7 +78,7 @@ async def reply_to_user(message: Message):
     except TelegramAPIError as ex:
         await message.reply(f"Не удалось отправить сообщение адресату!\nОтвет от Telegram: {ex.message}")
         
-@router.message(Command(commands=["broadcast"]), F.reply_to_message)
+@router.message(Command(commands=["broadcast"]))
 async def broadcaster(message: Message, bot: Bot) -> int:
     """
     Simple broadcaster
