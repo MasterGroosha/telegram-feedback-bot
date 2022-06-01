@@ -1,7 +1,7 @@
 from aiogram import Router, F, Bot
 from aiogram.dispatcher.filters import Command
 
-from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.fsm.context import FSMContext
 from aiogram.types import Message
 
 from aiogram_broadcaster import MessageBroadcaster
