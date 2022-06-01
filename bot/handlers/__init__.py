@@ -1,4 +1,6 @@
 from aiogram import Router
+from .private.broadcast import broadcast_command_handler, start_broadcast
+
 
 
 def setup_routers() -> Router:
@@ -13,3 +15,9 @@ def setup_routers() -> Router:
     router.include_router(usermode.router)
 
     return router
+
+def setup(dp):
+    ...
+    dp.register_message_handler(broadcast_command_handler, commands='broadcast')
+    dp.register_message_handler(start_broadcast, state='broadcast_text', content_types=types.ContentTypes.ANY)
+    logging.info("Handlers are successfully configured")
