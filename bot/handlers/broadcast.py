@@ -1,4 +1,5 @@
-
+from aiogram import Router, F, Bot
+from aiogram.dispatcher.filters import Command
 
 from aiogram.dispatcher import FSMContext
 from aiogram.types import Message
@@ -9,14 +10,16 @@ from pyrogram import Client, Filters
 
 
 
-
+@router.message(Command(commands=["broadcast"]))
 async def broadcast_command_handler(msg: Message, state: FSMContext):
     """
     Обработчик, выполняемый после ввода команды /broadcast
     """
     await msg.answer('Введите текст для начала рассылки:')
     await state.set_state('broadcast_text')
-
+    
+    
+@router.message(F.text)
 async def start_broadcast(msg: Message, state: FSMContext):
     """
     Обработчик, начинающий рассылку с введённым пользователем текстом
