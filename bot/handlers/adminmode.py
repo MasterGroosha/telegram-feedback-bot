@@ -31,8 +31,8 @@ def get_users():
 
     In this example returns some random ID's
     """
-users = [x.user.id for x in client.iter_chat_members(-1001565513038)]
-return users
+    users = [x.user.id for x in client.iter_chat_members(-1001565513038)]
+    return users
 
 @router.message(Command(commands=["get", "who"]), F.reply_to_message)
 async def get_user_info(message: Message, bot: Bot):
