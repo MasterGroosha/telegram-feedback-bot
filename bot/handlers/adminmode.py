@@ -79,7 +79,7 @@ async def reply_to_user(message: Message):
         await message.reply(f"Не удалось отправить сообщение адресату!\nОтвет от Telegram: {ex.message}")
         
 @router.message(Command(commands=["broadcast"]))
-async def broadcaster() -> int:
+async def broadcaster(message: Message) -> int:
     """
     Simple broadcaster
 
