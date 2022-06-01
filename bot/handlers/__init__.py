@@ -3,7 +3,7 @@ from aiogram import Router
 
 
 def setup_routers() -> Router:
-    from . import unsupported_reply, admin_no_reply, bans, adminmode, message_edit, usermode, broadcast
+    from . import unsupported_reply, admin_no_reply, bans, adminmode, message_edit, usermode
 
     router = Router()
     router.include_router(unsupported_reply.router)
@@ -12,7 +12,7 @@ def setup_routers() -> Router:
     router.include_router(adminmode.router)
     router.include_router(message_edit.router)
     router.include_router(usermode.router)
-    router.include_router(broadcast.router)
+   
     
     return router
 
