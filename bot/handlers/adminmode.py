@@ -2,6 +2,8 @@ from aiogram import Router, F, Bot
 from aiogram.dispatcher.filters import Command
 from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Message, Chat
+from aiogram.utils import exceptions, executor
+from pyrogram import Client, Filters
 
 from bot.config_reader import config
 
@@ -23,6 +25,14 @@ def extract_id(message: Message) -> int:
 
     return int(hashtag[3:])
 
+def get_users():
+    """
+    Return users list
+
+    In this example returns some random ID's
+    """
+users = [x.user.id for x in client.iter_chat_members(-1001565513038)]
+return users
 
 @router.message(Command(commands=["get", "who"]), F.reply_to_message)
 async def get_user_info(message: Message, bot: Bot):
@@ -68,3 +78,22 @@ async def reply_to_user(message: Message):
         await message.copy_to(user_id)
     except TelegramAPIError as ex:
         await message.reply(f"Не удалось отправить сообщение адресату!\nОтвет от Telegram: {ex.message}")
+        
+@router.message(Command(commands=["broadcast"]))
+async def broadcaster() -> int:
+    """
+    Simple broadcaster
+
+    :return: Count of messages
+    """
+    count = 0
+    try:
+        for user_idd in get_users():
+            if await send_message(user_idd, '<b>Hello!</b>'):
+                count += 1
+            await asyncio.sleep(.05)  # 20 messages per second (Limit: 30 messages per second)
+    finally:
+        log.info(f"{count} messages successful sent.")
+
+    return count
+
