@@ -2,7 +2,7 @@ from aiogram import Router, F, Bot
 from aiogram.dispatcher.filters import Command
 from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Message, Chat
-from pyrogram import Client, Filters
+from pyrogram import Client
 
 from bot.config_reader import config
 
