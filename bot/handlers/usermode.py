@@ -50,7 +50,7 @@ async def cmd_sendall(message: Message):
             users = db.get_users()
             for row in users:
                 try:
-                    await bot.send_message(row[0], text)
+                    await bot.send_message(row[1], text)
                 except:
                     pass
 
