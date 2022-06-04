@@ -12,7 +12,8 @@ from bot.handlers import setup_routers
 from bot.commandsworker import set_bot_commands
 
 from bot.config_reader import config
-
+from bot.data import db
+db = Database('database.db')
 async def main():
     # Настройка логирования в stdout
     logging.basicConfig(
