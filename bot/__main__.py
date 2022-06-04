@@ -13,7 +13,7 @@ from bot.commandsworker import set_bot_commands
 
 from bot.config_reader import config
 from bot.data import db
-from db import Database
+from bot.data.db import Database
 db = Database('database.db')
 async def main():
     # Настройка логирования в stdout
