@@ -33,7 +33,7 @@ async def cmd_start(message: Message):
     :param message: сообщение от пользователя с командой /start
     """
     if message.chat.type == 'private':
-        if not db.user_exists(message.from.user.id):
+        if not db.user_exists(message.from_user.id):
             db.add_user(message.from_user.id)
         await message.answer(
             "Саламалекум ✌️\n"
