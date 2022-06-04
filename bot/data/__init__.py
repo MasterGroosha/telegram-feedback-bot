@@ -1,1 +1,1 @@
-from data import db
+from bot.data import db
