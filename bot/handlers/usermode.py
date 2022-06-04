@@ -11,7 +11,8 @@ from bot.blocklists import banned, shadowbanned
 from bot.config_reader import config
 from bot.filters import SupportedMediaFilter
 from aiogram.methods.get_chat_member import GetChatMember
-from data import db
+from bot.data import db
+from bot.data.db import Database
 
 db = Database('database.py')
 
