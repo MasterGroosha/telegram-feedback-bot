@@ -17,9 +17,9 @@ class Database:
 			return self.cursor.execute("INSERT INTO `users` (`user_id`) VALUES (?)", (user_id,))
 
 
-	def set_active(self, user_id, active):
-		with self.connection:
-			return self.cursor.execute("UPDATE `users` SET `active` = ? WHERE `user_id` = ?", (active, user_id,))
+	# def set_active(self, user_id, active):
+		# with self.connection:
+			# return self.cursor.execute("UPDATE `users` SET `active` = ? WHERE `user_id` = ?", (active, user_id,))
 
 
 	def get_users(self):
