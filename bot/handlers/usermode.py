@@ -51,10 +51,8 @@ async def cmd_sendall(message: Message):
             for row in users:
                 try:
                     await bot.send_message(row[0], text)
-                    if int(row[1]) != 1:
-                        db.set_active(row[0], 1)
                 except:
-                    db.set_active(row[0], 0)
+                    pass
 
            
 
