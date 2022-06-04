@@ -14,4 +14,4 @@ class Database:
 
 	def add_user(self, user_id):
 		with self.connection:
-			return self.cursor.execute("INSERT INTO `users` (`user_id`) VALUES (?)", (user_id))
+			return self.cursor.execute("INSERT INTO `users` (`user_id`) VALUES (?)", (user_id,))
