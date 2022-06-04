@@ -16,6 +16,8 @@ from bot.data.db import Database
 
 db = Database('database.py')
 
+bot = Bot(token=config.bot_token.get_secret_value())
+
 router = Router()
 
 
