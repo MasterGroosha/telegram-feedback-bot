@@ -6,9 +6,7 @@ from bot.config_reader import config
 
 async def set_bot_commands(bot: Bot):
     usercommands = [
-        BotCommand(command="help", description="Справка по использованию бота"),
-       
-        
+        BotCommand(command="help", description="Справка по использованию бота"),  
     ]
     await bot.set_my_commands(usercommands, scope=BotCommandScopeDefault())
 
@@ -18,7 +16,6 @@ async def set_bot_commands(bot: Bot):
         BotCommand(command="shadowban", description="Скрытно заблокировать пользователя"),
         BotCommand(command="unban", description="Разблокировать пользователя"),
         BotCommand(command="list_banned", description="Список заблокированных"),
-        BotCommand(command="Broadcast", description="Рассылка"),
     ]
     await bot.set_my_commands(
         admin_commands,
