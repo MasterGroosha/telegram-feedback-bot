@@ -24,4 +24,4 @@ class Database:
 
 	def get_users(self):
 		with self.connection:
-			return self.cursor.execute("SELECT `user_id`, `active` FROM `users`").fetchall()
+			return self.cursor.execute("SELECT `user_id` FROM `users`").fetchall()
