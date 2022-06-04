@@ -51,8 +51,8 @@ async def cmd_sendall(message: Message):
             for row in users:
                 try:
                     await bot.send_message(row[0], text)
-                except:
-                    pass
+                except Exception as e:
+                    print e.message, e.args
 
            
 
