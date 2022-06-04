@@ -56,7 +56,7 @@ async def cmd_sendall(message: Message):
                 except:
                     db.set_active(row[0], 0)
 
-            await bot.send_message(message.from_user.id, "Успешная рассылка")
+            await message.answer(message.from_user.id, "Успешная рассылка")
 
 
 
