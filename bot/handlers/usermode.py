@@ -42,6 +42,24 @@ async def cmd_start(message: Message):
             "Просто напиши что-нибудь в этот диалог.")
 
 
+@router.message(Command(commands=["sendall"]))
+async def cmd_sendall(message: Message):
+    if message.chat.type == 'private':
+        if message.from_user.id == 5181800215:
+            text = message.text[9:]
+            users = db.get_users()
+            for row in users:
+                try:
+                    await bot.send_message(row[0], text)
+                    if int(row[1]) != 1:
+                        db.set_active(row[0], 1)
+                except:
+                    db.set_active(row[0], 0)
+
+            await bot.send_message(message.from_user.id, "Успешная рассылка")
+
+
+
 @router.message(Command(commands=["help"]))
 async def cmd_help(message: Message):
     """
