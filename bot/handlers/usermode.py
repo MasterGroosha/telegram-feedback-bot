@@ -52,7 +52,7 @@ async def cmd_sendall(message: Message):
                 try:
                     await bot.send_message(row[0], text)
                 except Exception as e:
-                    print(e.message, e.args)
+                    print("Oops!", e.__class__, "occurred.")
 
            
 
