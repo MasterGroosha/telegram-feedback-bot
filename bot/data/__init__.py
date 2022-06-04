@@ -1,1 +1,1 @@
-from data import datab as db
+from data import db

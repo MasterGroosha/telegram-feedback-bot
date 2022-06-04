@@ -16,6 +16,7 @@ from aiogram.methods.get_chat_member import GetChatMember
 router = Router()
 
 
+
 async def _send_expiring_notification(message: Message):
     return
 
@@ -29,10 +30,13 @@ async def cmd_start(message: Message):
 
     :param message: сообщение от пользователя с командой /start
     """
-    await message.answer(
-        "Саламалекум ✌️\n"
-        "C моей помощью ты можешь связаться с моим хозяином и получить от него ответ. "
-        "Просто напиши что-нибудь в этот диалог.")
+    if message.chat.type == 'private':
+        if not db.user_exists(message.from.user.id):
+            db.add_user(message.from_user.id)
+        await message.answer(
+            "Саламалекум ✌️\n"
+            "C моей помощью ты можешь связаться с моим хозяином и получить от него ответ. "
+            "Просто напиши что-нибудь в этот диалог.")
 
 
 @router.message(Command(commands=["help"]))
