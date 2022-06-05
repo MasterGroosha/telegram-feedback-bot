@@ -16,4 +16,9 @@ async def has_no_reply(message: Message):
     :param message: сообщение от админа, не являющееся ответом на другое сообщение
     """
     if message.content_type not in (ContentType.NEW_CHAT_MEMBERS, ContentType.LEFT_CHAT_MEMBER):
-        await message.reply("Это сообщение не является ответом на какое-либо другое!")
+        pass
+    
+        
+      
+      
+      # await message.reply("Это сообщение не является ответом на какое-либо другое!")
