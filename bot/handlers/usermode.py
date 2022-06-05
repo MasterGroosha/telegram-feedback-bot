@@ -77,7 +77,7 @@ async def cmd_help(message: Message):
         url="https://yourmom.tk")
     )
     await message.answer(
-        "За спам прописываю в ебало", reply_markup=builder.as_markup(),)
+        "За спам прописываю в ебало")
     
     
 
