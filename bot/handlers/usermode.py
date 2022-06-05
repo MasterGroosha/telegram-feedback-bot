@@ -44,11 +44,11 @@ async def cmd_start(message: Message):
             "Просто напиши что-нибудь в этот диалог.")
 
 
-@router.message(Command(commands=["sendall"]))
+@router.message(Command(commands=["sendall"]), F.reply_to_message)
 async def cmd_sendall(message: Message):
     if message.chat.type == 'private':
         if message.from_user.id == 5181800215:
-            text = message.text[9:]
+            text = message.reply_to_message
             users = db.get_users()
             for row in users:
                 try:
