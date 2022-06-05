@@ -2,6 +2,10 @@
 
 <a href="https://hub.docker.com/r/groosha/telegram-feedback-bot"><img src="https://img.shields.io/badge/Docker%20Hub-telegram--feedback--bot-blue"></a>   
 
+## О форке
+Сделан полностью под меня, есть свои нюансы
+
+
 
 ## Предыстория
 
