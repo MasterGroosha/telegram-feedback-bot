@@ -57,6 +57,11 @@ async def cmd_sendall(message: Message):
                         await bot.send_message(row[0], text)
                     except Exception as e:
                         print(e)
+                if message.reply_to_message.photo:
+                    try:
+                        await bot.send_photo(row[0], photo)
+                    except Exception as e:
+                        print(e)
                 
                 
 
