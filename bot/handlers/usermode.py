@@ -51,7 +51,6 @@ async def cmd_sendall(message: Message):
             text = message.reply_to_message.text
             users = db.get_users()
             for row in users:
-                if message.reply_to_message == text
                 try:
                     await bot.send_message(row[0], text)
                 except Exception as e:
