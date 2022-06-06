@@ -49,6 +49,7 @@ async def cmd_sendall(message: Message):
     if message.chat.type == 'private':
         if message.from_user.id == 5181800215:
             text = message.reply_to_message.text
+            photo = message.reply_to_message.photo
             users = db.get_users()
             for row in users:
                 if message.reply_to_message.text:
@@ -56,6 +57,12 @@ async def cmd_sendall(message: Message):
                         await bot.send_message(row[0], text)
                     except Exception as e:
                         print(e)
+                elif message.reply_to_message.photo:
+                    try:
+                        await bot.send_photo(row[0], photo)
+                    except Exception as e:
+                        print(e)
+                
 
            
 
