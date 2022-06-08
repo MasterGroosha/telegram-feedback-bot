@@ -51,11 +51,11 @@ async def cmd_sendall(message: Message):
            # text = message.reply_to_message
             users = db.get_users()
             for row in users:
-                if message.reply_to_message.text:
-                    try:
-                        await message.copy_to(row[0])
-                    except Exception as e:
-                        print(e)
+                #if message.reply_to_message.text:
+                try:
+                    await message.copy_to(row[0])
+                except Exception as e:
+                    print(e)
             
                 
                 
