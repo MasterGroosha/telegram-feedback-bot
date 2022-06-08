@@ -52,10 +52,8 @@ async def cmd_sendall(message: Message):
             users = db.get_users()
             for row in users:
                 #if message.reply_to_message.text:
-                try:
-                    await message.copy_to(row[0], text)
-                except Exception as e:
-                    print(e)
+                
+                await message.copy_to(row[0], text)
             
                 
                 
