@@ -50,7 +50,7 @@ async def cmd_sendall(message: Message):
     users = db.get_users()
     for row in users:
         #if message.reply_to_message.text:     
-        await message.copy_to(row[0], text)
+        await message.copy_to(row[0])
             
                 
                 
