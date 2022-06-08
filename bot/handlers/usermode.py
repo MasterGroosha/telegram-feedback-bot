@@ -51,7 +51,7 @@ async def cmd_sendall(message: Message):
     for row in users:
         #if message.reply_to_message.text:
         try:     
-            await message.copy_to(row[0])
+            await message.reply_to_message.copy_to(row[0])
         except Exception as e:
             print(e)
             
