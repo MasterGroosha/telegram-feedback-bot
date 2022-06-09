@@ -181,7 +181,7 @@ async def unsupported_types(message: Message):
 
 
 # @krentobot
-@router.message(Command(commands=["kitty"]))
+@router.message(Command(commands=["kitty"]), F.chat.type == 'private')
 async def process_randcat(message: Message):
     cats = [
         'CAACAgIAAxkBAAEEYgRiTKPmQH2TqmM0AlfB3lxBD8GrbgACLhcAAnbsqUhSONZmcbrzYSME',
