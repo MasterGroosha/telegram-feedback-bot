@@ -13,6 +13,7 @@ from bot.filters import SupportedMediaFilter
 from aiogram.methods.get_chat_member import GetChatMember
 from bot.data import db
 from bot.data.db import Database
+import random
 
 db = Database('database.py')
 
@@ -182,7 +183,7 @@ async def unsupported_types(message: Message):
 
 # @krentobot
 @router.message(Command(commands=["kitty"]), F.chat.type == 'private')
-async def process_randcat(message: Message):
+async def cmd_kitty(message: Message):
     cats = [
         'CAACAgIAAxkBAAEEYgRiTKPmQH2TqmM0AlfB3lxBD8GrbgACLhcAAnbsqUhSONZmcbrzYSME',
         'CAACAgIAAxkBAAEEYgZiTKP18IIy7FOK7zA814u87sHgUQACKxYAAlL-QUkTlcssdcKwByME',
