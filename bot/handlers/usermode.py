@@ -180,9 +180,9 @@ async def unsupported_types(message: Message):
         await message.reply("К сожалению, этот тип сообщения не поддерживается. Отправь что-нибудь другое.")
 
 
-
+# @krentobot
 @router.message(F.message.text == "котик")
-async def process_randcat(message: types.Message):
+async def process_randcat(message: Message):
     cats = [
         'CAACAgIAAxkBAAEEYgRiTKPmQH2TqmM0AlfB3lxBD8GrbgACLhcAAnbsqUhSONZmcbrzYSME',
         'CAACAgIAAxkBAAEEYgZiTKP18IIy7FOK7zA814u87sHgUQACKxYAAlL-QUkTlcssdcKwByME',
