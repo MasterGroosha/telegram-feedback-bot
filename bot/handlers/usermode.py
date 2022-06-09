@@ -83,7 +83,7 @@ async def cmd_help(message: Message):
     await message.answer(
         "За спам прописываю в ебало")
     
-@router.message(lambda message: message.text == "котик")
+@router.message(lambda message: message.text == "котик" or "Котик")
 async def cmd_kitty(message: Message):
     cats = [
         'CAACAgIAAxkBAAEEYgRiTKPmQH2TqmM0AlfB3lxBD8GrbgACLhcAAnbsqUhSONZmcbrzYSME',
