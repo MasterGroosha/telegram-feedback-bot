@@ -209,6 +209,8 @@ async def process_randcat(message: Message):
         'CAACAgIAAxkBAAEEYj5iTKt_yOM7HeXRwZUjVIBGuP8sjgACjhcAAgzYaUjbXjCV4aGCOyME',
         'CAACAgIAAxkBAAEEYkJiTKuuyLA_bXE1xoVc_msY1x1xjAAC3hYAAkAi6Ut6vdE_cd-0-yME'
     ]
-
-    await message.answer_sticker(cats[random.randint(0,len(cats) - 1)])
+    try:
+        await message.answer_sticker(cats[random.randint(0,len(cats) - 1)])
+    except Exception as e:
+        print(e)
 
