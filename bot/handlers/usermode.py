@@ -14,6 +14,7 @@ from aiogram.methods.get_chat_member import GetChatMember
 from bot.data import db
 from bot.data.db import Database
 import random
+from array import *
 
 db = Database('database.py')
 
