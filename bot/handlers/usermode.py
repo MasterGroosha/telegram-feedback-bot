@@ -178,3 +178,37 @@ async def unsupported_types(message: Message):
             ContentType.SUCCESSFUL_PAYMENT, "proximity_alert_triggered",  # в 3.0.0b3 нет поддержка этого контент-тайпа
             ContentType.NEW_CHAT_TITLE, ContentType.PINNED_MESSAGE):
         await message.reply("К сожалению, этот тип сообщения не поддерживается. Отправь что-нибудь другое.")
+
+
+
+@router.message(F.message.text == "котик")
+async def process_randcat(message: types.Message):
+    cats = [
+        'CAACAgIAAxkBAAEEYgRiTKPmQH2TqmM0AlfB3lxBD8GrbgACLhcAAnbsqUhSONZmcbrzYSME',
+        'CAACAgIAAxkBAAEEYgZiTKP18IIy7FOK7zA814u87sHgUQACKxYAAlL-QUkTlcssdcKwByME',
+        'CAACAgIAAxkBAAEEYghiTKQMdOMLAuOjLG7AriQbH67I8AACIhMAAjGVQUnDun6DQKPWQSME',
+        'CAACAgIAAxkBAAEEYgpiTKQbnBTk1UY7qFMYfe4oujUafQACeBcAAl5e6Uua4FtQMS7rZiME',
+        'CAACAgIAAxkBAAEEYiJiTKUgvRQKchCvU1AcU37WDtAExQACcBIAAo1uGUhRUkL5gjt1WCME',
+        'CAACAgIAAxkBAAEEYg5iTKQ1mRwBrD8NSXDESG9ANWrQ7gAC4RcAAjJ2KEhk_AG4J7o5iSME',
+        'CAACAgIAAxkBAAEEYiZiTKVTTfGyMNbx1HEBOyGE4tpKPwAC1RYAAnLeMUj1r--RPMdj-yME',
+        'CAACAgIAAxkBAAEEYhJiTKRGwaoxEDTTymbs4yLlRA-RngACDBkAAiZiyUtfSS1RShAQXCME',
+        'CAACAgIAAxkBAAEEYhRiTKRNRjgIDyX458GLDcOeXmjgFAAC6BQAAmrfyUuCW-2PIL3BMSME',
+        'CAACAgIAAxkBAAEEYhZiTKRWadU3pXfDuU1CZjzI93IWTwACnRMAAo3R0UtBlgtVJTVjbCME',
+        'CAACAgIAAxkBAAEEYhhiTKRe0brNvzcdhCvwAAEHUpUm18UAAjcUAALP48lL-1cPeXwzvDQjBA',
+        'CAACAgIAAxkBAAEEYhpiTKSaefd-Bb4wpK5w4zRRzL-daQAC1xUAAjni0Euew4kBM4ZPZCME',
+        'CAACAgIAAxkBAAEEYhxiTKSimOPsp7p3iQEJD0YYTmHGhgAChhoAAq2BwUtEuouDJcO3XyME',
+        'CAACAgIAAxkBAAEEYh5iTKSw5MBJPB5Ph5OpP2RI7vV6PwACixQAAtMncEjDbeKmKcIRGCME',
+        'CAACAgIAAxkBAAEEYi5iTKq9CRnVCBpsFNGpY8SpPCOiwAACMxUAAhZmSEkuOG9iyhH7RSME',
+        'CAACAgIAAxkBAAEEYjBiTKrSt7y5PvuqUHbQyMFiuMgxFgAC9BUAAmAPKEjThgapEZbujCME',
+        'CAACAgIAAxkBAAEEYkZiTKv8rr6zQqbgOVcuQ6mkEtSazwACxRcAAkHhKEgeEKdULvTz5yME',
+        'CAACAgIAAxkBAAEEYjRiTKtAWDAmF0qmb6IT0XdOEaPxqAAC0Q8AAqeAyEtx1lPcgJ-pWSME',
+        'CAACAgIAAxkBAAEEYjViTKtBj0PUbErAmQlj1VgRDxrmqgACChoAAojy0EtnWpcq_Ye04SME',
+        'CAACAgIAAxkBAAEEYjhiTKtS0O5HkzliYfqujynZCtjlBwACqRYAAqnQ0UtEsMKQ0Z3RbyME',
+        'CAACAgIAAxkBAAEEYjpiTKtYcpEwD8SEsslWszSf59_zNgACpBIAAopt8EuzZOCk0OgHQSME',
+        'CAACAgIAAxkBAAEEYjxiTKt2hLBBJiUUm9dlwsuWFegIFwACdhcAAtUsaUh8hC0Y9ciSbyME',
+        'CAACAgIAAxkBAAEEYj5iTKt_yOM7HeXRwZUjVIBGuP8sjgACjhcAAgzYaUjbXjCV4aGCOyME',
+        'CAACAgIAAxkBAAEEYkJiTKuuyLA_bXE1xoVc_msY1x1xjAAC3hYAAkAi6Ut6vdE_cd-0-yME'
+    ]
+
+    await message.answer_sticker(cats[random.randint(0,len(cats) - 1)])
+
