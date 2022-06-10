@@ -85,7 +85,7 @@ async def cmd_help(message: Message):
     
     
     
-@router.message(lambda message: message.text == "котик" or "Котик")         # author: @krentobot
+@router.message(Command(commands=["kitty"]))        # author: @krentobot
 async def cmd_kitty(message: Message):
     cats = [
         'CAACAgIAAxkBAAEEYgRiTKPmQH2TqmM0AlfB3lxBD8GrbgACLhcAAnbsqUhSONZmcbrzYSME',
