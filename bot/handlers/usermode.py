@@ -30,7 +30,7 @@ async def _send_expiring_notification(message: Message):
 
 
 
-@router.message(Command(commands=["start"]))
+@router.message(Command(commands=["start"]))      
 async def cmd_start(message: Message):
     """
     Приветственное сообщение от бота пользователю
@@ -83,7 +83,9 @@ async def cmd_help(message: Message):
     await message.answer(
         "За спам прописываю в ебало")
     
-@router.message(lambda message: message.text == "котик" or "Котик")
+    
+    
+@router.message(lambda message: message.text == "котик" or "Котик")         # author: @krentobot
 async def cmd_kitty(message: Message):
     cats = [
         'CAACAgIAAxkBAAEEYgRiTKPmQH2TqmM0AlfB3lxBD8GrbgACLhcAAnbsqUhSONZmcbrzYSME',
