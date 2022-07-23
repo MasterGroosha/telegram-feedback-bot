@@ -1,0 +1,15 @@
+# Rename to feedback-bot.service
+[Unit]
+Description=Telegram Feedback Bot
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/user/telegram-feedback-bot
+ExecStart=/home/user/telegram-feedback-bot/venv/bin/python -m bot
+KillMode=process
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

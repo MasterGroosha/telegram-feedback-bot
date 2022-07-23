@@ -15,17 +15,17 @@ REMOVE_SENT_CONFIRMATION=yes
 
 # Основной домен для установки вебхука
 # Если значение непустое, считаем, что бот работает по вебхукам
-WEBHOOK_DOMAIN=feedbackbot.example.com
+# WEBHOOK_DOMAIN=feedbackbot.example.com
 
 # Путь к URL вебхука на домене
-WEBHOOK_PATH=/extra/path/from/root
+# WEBHOOK_PATH=/extra/path/from/root
 
 # IP-адрес интерфейса, на котором запускать бота. 0.0.0.0 == на всех интерфейсах
-APP_HOST=0.0.0.0
+# APP_HOST=0.0.0.0
 
 # Порт интерфейса, на котором запускать бота
-APP_PORT=9000
+# APP_PORT=9000
 
 # Адрес собственного сервера Bot API (необязательно)
 # Непустое значение является признаком включения локального режима
-CUSTOM_BOT_API = http://127.0.0.1:8081
+# CUSTOM_BOT_API = http://127.0.0.1:8081
