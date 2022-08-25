@@ -1,7 +1,7 @@
 from contextlib import suppress
 
 from aiogram import Router, F
-from aiogram.dispatcher.filters import Command
+from aiogram.filters import Command
 from aiogram.types import Message
 
 from bot.blocklists import banned, shadowbanned

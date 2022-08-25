@@ -4,7 +4,7 @@ import logging
 from aiohttp import web
 from aiogram import Bot, Dispatcher
 from aiogram.client.telegram import TelegramAPIServer
-from aiogram.dispatcher.webhook.aiohttp_server import SimpleRequestHandler
+from aiogram.webhook.aiohttp_server import SimpleRequestHandler
 from bot.handlers import setup_routers
 # from aiogram.dispatcher.webhook import configure_app
 

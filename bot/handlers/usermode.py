@@ -1,7 +1,7 @@
 from asyncio import create_task, sleep
 
 from aiogram import Router, F, Bot
-from aiogram.dispatcher.filters import Command
+from aiogram.filters import Command
 from aiogram.types import ContentType
 from aiogram.types import Message
 

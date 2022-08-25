@@ -1,5 +1,5 @@
 from aiogram import Router, F, Bot
-from aiogram.dispatcher.filters import Command
+from aiogram.filters import Command
 from aiogram.exceptions import TelegramAPIError
 from aiogram.types import Message, Chat
 
