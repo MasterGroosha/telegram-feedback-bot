@@ -12,7 +12,7 @@ from bot.middlewares import L10nMiddleware
 from pathlib import Path
 
 from bot.config_reader import config
-
+from bot.util import urljoin
 
 async def main():
     # Настройка логирования в stdout
@@ -44,7 +44,7 @@ async def main():
 
     try:
         if not config.webhook_domain:
-            await bot.delete_webhook()
+            await bot.delete_webhook(drop_pending_updates=config.drop_pending_updates)
             await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
         else:
             # Выключаем логи от aiohttp
@@ -53,14 +53,14 @@ async def main():
 
             # Установка вебхука
             await bot.set_webhook(
-                url=config.webhook_domain + config.webhook_path,
-                drop_pending_updates=True,
+                url=f"https://{urljoin(config.webhook_domain, config.webhook_path)}",
+                drop_pending_updates=config.drop_pending_updates,
                 allowed_updates=dp.resolve_used_update_types()
             )
 
             # Создание запуска aiohttp
             app = web.Application()
-            SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=config.webhook_path)
+            SimpleRequestHandler(dispatcher=dp, bot=bot).register(app, path=urljoin("/", config.webhook_path))
             runner = web.AppRunner(app)
             await runner.setup()
             site = web.TCPSite(runner, host=config.app_host, port=config.app_port)
