@@ -1,7 +1,8 @@
 from aiogram import Router, F, Bot
-from aiogram.filters import Command
 from aiogram.exceptions import TelegramAPIError
+from aiogram.filters import Command
 from aiogram.types import Message, Chat
+from fluent.runtime import FluentLocalization
 
 from bot.config_reader import config
 
@@ -10,6 +11,12 @@ router.message.filter(F.chat.id == config.admin_chat_id)
 
 
 def extract_id(message: Message) -> int:
+    """
+    Извлекает ID юзера из хэштега в сообщении
+
+    :param message: сообщение, из хэштега в котором нужно достать айди пользователя
+    :return: ID пользователя, извлечённый из хэштега в сообщении
+    """
     # Получение списка сущностей (entities) из текста или подписи к медиафайлу в отвечаемом сообщении
     entities = message.entities or message.caption_entities
     # Если всё сделано верно, то последняя (или единственная) сущность должна быть хэштегом...
@@ -25,7 +32,14 @@ def extract_id(message: Message) -> int:
 
 
 @router.message(Command(commands=["get", "who"]), F.reply_to_message)
-async def get_user_info(message: Message, bot: Bot):
+async def get_user_info(message: Message, bot: Bot, l10n: FluentLocalization):
+    """
+    Обработчик команд /get и /who. Получает информацию о пользователе.
+
+    :param message: объект сообщения, на которое админ ответил одной из команд выше
+    :param bot: объект бота, который обрабатывает текущий апдейт
+    :param l10n: объект локализации
+    """
     def get_full_name(chat: Chat):
         if not chat.first_name:
             return ""
@@ -41,19 +55,34 @@ async def get_user_info(message: Message, bot: Bot):
     try:
         user = await bot.get_chat(user_id)
     except TelegramAPIError as ex:
-        return await message.reply(f"Не удалось получить информацию о пользователе! Ошибка: {ex}")
+        await message.reply(
+            l10n.format_value(
+                msg_id="cannot-get-user-info-error",
+                args={"error": ex.message})
+        )
+        return
 
-    u = f"@{user.username}" if user.username else 'нет'
-    await message.reply(f"Имя: {get_full_name(user)}\n\nID: {user.id}\nUsername: {u}")
+    u = f"@{user.username}" if user.username else l10n.format_value("no")
+    await message.reply(
+        l10n.format_value(
+            msg_id="user-info",
+            args={
+                "name": get_full_name(user),
+                "id": user.id,
+                "username": u
+            }
+        )
+    )
 
 
 @router.message(F.reply_to_message)
-async def reply_to_user(message: Message):
+async def reply_to_user(message: Message, l10n: FluentLocalization):
     """
     Ответ администратора на сообщение юзера (отправленное ботом).
     Используется метод copy_message, поэтому ответить можно чем угодно, хоть опросом.
 
     :param message: сообщение от админа, являющееся ответом на другое сообщение
+    :param l10n: объект локализации
     """
 
     # Вырезаем ID
@@ -67,4 +96,8 @@ async def reply_to_user(message: Message):
     try:
         await message.copy_to(user_id)
     except TelegramAPIError as ex:
-        await message.reply(f"Не удалось отправить сообщение адресату!\nОтвет от Telegram: {ex.message}")
+        await message.reply(
+            l10n.format_value(
+                msg_id="cannot-answer-to-user-error",
+                args={"error": ex.message})
+        )
