@@ -4,4 +4,9 @@ services:
         image: groosha/telegram-feedback-bot:latest
         stop_signal: SIGINT
         restart: unless-stopped
-        env_file: .env
+        volumes:
+            - ".env:/app/.env"
+            # Если хотите переопределить локализацию, подложите нужный каталог
+            # - "/your/path/to/locales:/app/bot/locales"
+            # Или даже так:
+            # - "/your/custom/language:/app/bot/locales/ru"
