@@ -2,7 +2,7 @@ import os
 from typing import Optional
 from secrets import token_urlsafe
 
-from pydantic import BaseSettings, SecretStr
+from pydantic import BaseSettings, Field, SecretStr
 
 
 class Settings(BaseSettings):
@@ -22,10 +22,13 @@ class Settings(BaseSettings):
         env_nested_delimiter = "__"
 
 
+class RenderSettings(Settings):
+    app_port: int = Field(..., env="PORT")
+    webhook_domain: str = Field(..., env="RENDER_EXTERNAL_HOSTNAME")
+    webhook_path: str = Field(default_factory=token_urlsafe)
+
+
 if "RENDER" in os.environ:
-    config = Settings(
-        app_port=os.environ.get("PORT"),
-        webhook_domain=os.environ.get("RENDER_EXTERNAL_HOSTNAME"),
-        webhook_path=token_urlsafe(32))
+    config = RenderSettings()
 else:
     config = Settings()
