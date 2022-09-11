@@ -1,3 +1,4 @@
+import os
 from typing import Optional
 from secrets import token_urlsafe
 
@@ -16,20 +17,15 @@ class Settings(BaseSettings):
     drop_pending_updates: Optional[bool]
 
     class Config:
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
-        env_nested_delimiter = '__'
-        fields = {
-            "app_port": {
-                "env": "port",
-            },
-            "webhook_domain": {
-                "env": "render_external_hostname",
-            },
-            "webhook_path": {
-                "default_factory": token_urlsafe,
-            },
-        }
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        env_nested_delimiter = "__"
 
 
-config = Settings()
+if "RENDER" in os.environ:
+    config = Settings(
+        app_port=os.environ.get("PORT"),
+        webhook_domain=os.environ.get("RENDER_EXTERNAL_HOSTNAME"),
+        webhook_path=token_urlsafe(32))
+else:
+    config = Settings()
