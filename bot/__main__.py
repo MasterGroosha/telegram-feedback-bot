@@ -37,7 +37,7 @@ async def main():
         bot.session.api = TelegramAPIServer.from_base(config.custom_bot_api, is_local=True)
 
     # Регистрация мидлварей
-    dp.message.middleware(L10nMiddleware(l10n))
+    dp.update.middleware(L10nMiddleware(l10n))
 
     # Регистрация /-команд в интерфейсе
     await set_bot_commands(bot)
