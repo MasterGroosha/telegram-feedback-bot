@@ -62,6 +62,10 @@
 3. Запустите бота: `docker compose up -d` (или `docker-compose up -d` на старых версиях Docker);
 4. Проверьте, что контейнер поднялся: `docker compose ps`
 
+### Render.com
+
+[![Развернуть на Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
 ## Локализация
 
 Если вы хотите изменить тексты в боте, ознакомьтесь с информацией в 

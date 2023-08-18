@@ -1,6 +1,8 @@
+import os
 from typing import Optional
+from secrets import token_urlsafe
 
-from pydantic import BaseSettings, SecretStr
+from pydantic import BaseSettings, Field, SecretStr
 
 
 class Settings(BaseSettings):
@@ -12,11 +14,21 @@ class Settings(BaseSettings):
     app_host: Optional[str] = "0.0.0.0"
     app_port: Optional[int] = 9000
     custom_bot_api: Optional[str]
+    drop_pending_updates: Optional[bool]
 
     class Config:
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
-        env_nested_delimiter = '__'
+        env_file = ".env"
+        env_file_encoding = "utf-8"
+        env_nested_delimiter = "__"
 
 
-config = Settings()
+class RenderSettings(Settings):
+    app_port: int = Field(..., env="PORT")
+    webhook_domain: str = Field(..., env="RENDER_EXTERNAL_HOSTNAME")
+    webhook_path: str = Field(default_factory=token_urlsafe)
+
+
+if "RENDER" in os.environ:
+    config = RenderSettings()
+else:
+    config = Settings()
