@@ -4,7 +4,7 @@ services:
     name: telegram-feedback-bot
     repo: https://github.com/Mehavoid/telegram-feedback-bot.git
     branch: add-renderoku
-    env: python # valid values: https://render.com/docs/yaml-spec#environment
+    runtime: python # valid values: https://render.com/docs/blueprint-spec#runtime
     plan: free # optional; defaults to starter
     region: frankfurt # https://render.com/docs/regions
     buildCommand: "pip install -r requirements.txt"
