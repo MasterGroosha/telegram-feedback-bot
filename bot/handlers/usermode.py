@@ -2,8 +2,8 @@ from asyncio import create_task, sleep
 
 from aiogram import Router, F, Bot
 from aiogram.filters import Command
-from aiogram.types import ContentType
-from aiogram.types import Message
+from aiogram.fsm.context import FSMContext
+from aiogram.types import ContentType, Message
 from fluent.runtime import FluentLocalization
 
 from bot.blocklists import banned, shadowbanned
@@ -11,9 +11,7 @@ from bot.config_reader import config
 from bot.filters import SupportedMediaFilter
 
 router = Router()
-class hashtag(StatesGroup):
-    quality = State()
-    other = State()
+
 
 async def _send_expiring_notification(message: Message, l10n: FluentLocalization):
     """
@@ -53,79 +51,77 @@ async def cmd_help(message: Message, l10n: FluentLocalization):
 @router.message(Command(commands=["quality"]))
 async def cmd_help(message: Message, l10n: FluentLocalization, state: FSMContext):
     await message.answer(l10n.format_value("quality"))
-    await state.set_state(hashtag.quality)
+    await state.update_data(hashtag="#quality")
 
-@router.message(hashtag.quality, F.text)
-async def process_hashtag(message: Message,bot: Bot,l10n: FluentLocalization, state: FSMContext):
-    if len(message.text) > 4000:
-        return await message.reply(l10n.format_value("too-long-text-error"))
-    if message.from_user.id in banned:
-        await message.answer(l10n.format_value("you-were-banned-error"))
-    elif message.from_user.id in shadowbanned:
-        return
-    else:
-        await bot.send_message(config.admin_chat_id,
-                message.html_text + f"\n\nUsername пользователя: @{message.from_user.username}" + f"\nКатегория вопроса: #quality" + f"\nID пользователя: #id{message.from_user.id}", parse_mode="HTML"
-            )
-        await message.reply(l10n.format_value("sent-confirmation"))
-    await state.clear()
 
 @router.message(Command(commands=["other"]))
 async def cmd_help(message: Message, l10n: FluentLocalization, state: FSMContext):
     await message.answer(l10n.format_value("other"))
-    await state.set_state(hashtag.other)
+    await state.update_data(hashtag="#other")
 
-@router.message(hashtag.other, SupportedMediaFilter())
-async def process_hashtag(message: Message,l10n: FluentLocalization, state: FSMContext):
-    if message.caption and len(message.caption) > 4000:
-        return await message.reply(l10n.format_value("too-long-caption-error"))
-    if message.from_user.id in banned:
-        await message.answer(l10n.format_value("you-were-banned-error"))
-    elif message.from_user.id in shadowbanned:
-        return
-    else:
-        await message.copy_to(
-            config.admin_chat_id,
-            caption=((message.caption or "") + f"\n\nUsername пользователя: @{message.from_user.username}" + f"\nКатегория вопроса: #quality" + f"\nID пользователя: #id{message.from_user.id}"),
-            parse_mode="HTML"
-        )
-        create_task(_send_expiring_notification(message, l10n))
-        await message.reply(l10n.format_value("sent-confirmation"))
-    await state.clear()
+
+def prepare_message_text(message: Message, category: str) -> str:
+    username = "нет"
+    if message.from_user.username:
+        username = f"@{message.from_user.username}"
+    parts = [message.html_text or "", f"\n\nUsername: {username}"]
+    if category:
+        parts.append(f"\nКатегория вопроса: {category}")
+    parts.append(f"\nID пользователя: #id{message.from_user.id}")
+    return "".join(parts)
+
 
 @router.message(F.text)
-async def text_message(message: Message, bot: Bot, l10n: FluentLocalization):
-    """
-    Хэндлер на текстовые сообщения от пользователя
+async def process_hashtag(message: Message, bot: Bot, l10n: FluentLocalization, state: FSMContext):
+    data = await state.get_data()
+    category = data.get("hashtag")
 
-    :param message: сообщение от пользователя для админа(-ов)
-    :param l10n: объект локализации
-    """
-    await message.reply(l10n.format_value("no-question-category-selected"))
+    if category is None:
+        await message.reply(l10n.format_value("no-question-category-selected"))
+        return
+
+    if len(message.text) > 4000:
+        await message.reply(l10n.format_value("too-long-text-error"))
+        return
+    if message.from_user.id in banned:
+        await message.answer(l10n.format_value("you-were-banned-error"))
+        return
+    elif message.from_user.id in shadowbanned:
+        return
+
+    await bot.send_message(
+        chat_id=config.admin_chat_id,
+        text=prepare_message_text(message, category)
+    )
+    await state.set_data({})  # Очищаем сохранённый хэштег
+    create_task(_send_expiring_notification(message, l10n))
 
 
 @router.message(SupportedMediaFilter())
-async def supported_media(message: Message, l10n: FluentLocalization):
-    """
-    Хэндлер на медиафайлы от пользователя.
-    Поддерживаются только типы, к которым можно добавить подпись (полный список см. в регистраторе внизу)
+async def process_hashtag(message: Message,l10n: FluentLocalization, state: FSMContext):
+    data = await state.get_data()
+    category = data.get("hashtag")
 
-    :param message: медиафайл от пользователя
-    :param l10n: объект локализации
-    """
-    if message.caption and len(message.caption) > 1000:
-        return await message.reply(l10n.format_value("too-long-caption-error"))
+    if category is None:
+        await message.reply(l10n.format_value("no-question-category-selected"))
+        return
+
+    if message.caption and len(message.caption) > 4000:
+        await message.reply(l10n.format_value("too-long-caption-error"))
+        return
     if message.from_user.id in banned:
         await message.answer(l10n.format_value("you-were-banned-error"))
+        return
     elif message.from_user.id in shadowbanned:
         return
-    else:
-        await message.copy_to(
-            config.admin_chat_id,
-            caption=((message.caption or "") + f"\n\n#id{message.from_user.id}"),
-            parse_mode="HTML"
-        )
-        create_task(_send_expiring_notification(message, l10n))
+
+    await message.copy_to(
+        chat_id=config.admin_chat_id,
+        caption=prepare_message_text(message, category),
+        parse_mode="HTML"
+    )
+    await state.set_data({})  # Очищаем сохранённый хэштег
+    create_task(_send_expiring_notification(message, l10n))
 
 
 @router.message()
