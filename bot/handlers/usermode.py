@@ -11,7 +11,9 @@ from bot.config_reader import config
 from bot.filters import SupportedMediaFilter
 
 router = Router()
-
+class hashtag(StatesGroup):
+    quality = State()
+    other = State()
 
 async def _send_expiring_notification(message: Message, l10n: FluentLocalization):
     """
@@ -48,6 +50,49 @@ async def cmd_help(message: Message, l10n: FluentLocalization):
     await message.answer(l10n.format_value("help"))
 
 
+@router.message(Command(commands=["quality"]))
+async def cmd_help(message: Message, l10n: FluentLocalization, state: FSMContext):
+    await message.answer(l10n.format_value("quality"))
+    await state.set_state(hashtag.quality)
+
+@router.message(hashtag.quality, F.text)
+async def process_hashtag(message: Message,bot: Bot,l10n: FluentLocalization, state: FSMContext):
+    if len(message.text) > 4000:
+        return await message.reply(l10n.format_value("too-long-text-error"))
+    if message.from_user.id in banned:
+        await message.answer(l10n.format_value("you-were-banned-error"))
+    elif message.from_user.id in shadowbanned:
+        return
+    else:
+        await bot.send_message(config.admin_chat_id,
+                message.html_text + f"\n\nUsername пользователя: @{message.from_user.username}" + f"\nКатегория вопроса: #quality" + f"\nID пользователя: #id{message.from_user.id}", parse_mode="HTML"
+            )
+        await message.reply(l10n.format_value("sent-confirmation"))
+    await state.clear()
+
+@router.message(Command(commands=["other"]))
+async def cmd_help(message: Message, l10n: FluentLocalization, state: FSMContext):
+    await message.answer(l10n.format_value("other"))
+    await state.set_state(hashtag.other)
+
+@router.message(hashtag.other, SupportedMediaFilter())
+async def process_hashtag(message: Message,l10n: FluentLocalization, state: FSMContext):
+    if message.caption and len(message.caption) > 4000:
+        return await message.reply(l10n.format_value("too-long-caption-error"))
+    if message.from_user.id in banned:
+        await message.answer(l10n.format_value("you-were-banned-error"))
+    elif message.from_user.id in shadowbanned:
+        return
+    else:
+        await message.copy_to(
+            config.admin_chat_id,
+            caption=((message.caption or "") + f"\n\nUsername пользователя: @{message.from_user.username}" + f"\nКатегория вопроса: #quality" + f"\nID пользователя: #id{message.from_user.id}"),
+            parse_mode="HTML"
+        )
+        create_task(_send_expiring_notification(message, l10n))
+        await message.reply(l10n.format_value("sent-confirmation"))
+    await state.clear()
+
 @router.message(F.text)
 async def text_message(message: Message, bot: Bot, l10n: FluentLocalization):
     """
@@ -56,19 +101,7 @@ async def text_message(message: Message, bot: Bot, l10n: FluentLocalization):
     :param message: сообщение от пользователя для админа(-ов)
     :param l10n: объект локализации
     """
-    if len(message.text) > 4000:
-        return await message.reply(l10n.format_value("too-long-text-error"))
-
-    if message.from_user.id in banned:
-        await message.answer(l10n.format_value("you-were-banned-error"))
-    elif message.from_user.id in shadowbanned:
-        return
-    else:
-        await bot.send_message(
-            config.admin_chat_id,
-            message.html_text + f"\n\n#id{message.from_user.id}", parse_mode="HTML"
-        )
-        create_task(_send_expiring_notification(message, l10n))
+    await message.reply(l10n.format_value("no-question-category-selected"))
 
 
 @router.message(SupportedMediaFilter())
