@@ -1,7 +1,7 @@
 from typing import Optional
 
-from pydantic import BaseSettings, SecretStr
-
+from pydantic import SecretStr
+from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     bot_token: SecretStr
